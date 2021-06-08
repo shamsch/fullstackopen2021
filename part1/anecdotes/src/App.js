@@ -28,14 +28,27 @@ const App = () => {
     setPoint(copyOfPoint)
   }
 
+  const leadingVote = () => {
+    let indexOfMax= 0
+    for(let i=0; i<points.length;i++){
+      if(points[indexOfMax]<points[i]){
+        indexOfMax=i
+      }
+    }
+    return indexOfMax
+  }
+
   
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} points</p>
       <button onClick={handleClick}>next anecdotes</button>
       <button onClick={voteHandleClick}>vote</button>
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[leadingVote()]}</p>
     </div>
   )
 }
