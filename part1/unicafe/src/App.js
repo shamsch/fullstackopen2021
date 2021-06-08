@@ -48,13 +48,14 @@ const DisplayStat = (props) => {
 }
 
 const App = () => {
-  // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  
   let all = good + bad + neutral
   let avg = (good - bad) / (all - neutral)
   let percentage = (good / all) * 100
+  
   let data = {
     good: good,
     neutral: neutral,
