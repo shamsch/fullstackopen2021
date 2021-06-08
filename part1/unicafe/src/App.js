@@ -22,6 +22,31 @@ const Statistics = (props) =>{
     </div>
   )
 }
+
+const DisplayStat = (props) => {
+  
+  if (props.data.all==0){
+    return(
+      <div>
+      No feedback given
+      </div>
+    )
+    
+  }
+
+  return(
+    <div>
+      <Statistics name={"good"} score={props.data.good}></Statistics>
+      <Statistics name={"bad"} score={props.data.bad}></Statistics>
+      <Statistics name={"neutral"} score={props.data.neutral}></Statistics>
+      <Statistics name={"all"} score={props.data.all}></Statistics>
+      <Statistics name={"average"} score={props.data.avg}></Statistics>
+      <Statistics name={"positive"} score={props.data.percentage+" %"}></Statistics>
+    </div>
+    
+)
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -30,6 +55,14 @@ const App = () => {
   let all= good+bad+neutral
   let avg= (good-bad)/(all-neutral)
   let percentage= (good/all)*100
+  let data = {
+    good: good,
+    neutral: neutral,
+    bad: bad,
+    all: all,
+    avg: avg,
+    percentage: percentage
+  }
 
   return (
     <div>
@@ -38,12 +71,7 @@ const App = () => {
       <Buttons clickFunction={()=> setBad(bad+1)} buttonName={"bad"}></Buttons>
       <Buttons clickFunction={()=> setNeutral(neutral+1)} buttonName={"neutral"}></Buttons>
       <Heading title={"statistics"}></Heading>
-      <Statistics name={"good"} score={good}></Statistics>
-      <Statistics name={"bad"} score={bad}></Statistics>
-      <Statistics name={"neutral"} score={neutral}></Statistics>
-      <Statistics name={"all"} score={all}></Statistics>
-      <Statistics name={"average"} score={avg}></Statistics>
-      <Statistics name={"positive"} score={percentage+" %"}></Statistics>
+      <DisplayStat data={data}></DisplayStat>
     </div>
   )
 }
