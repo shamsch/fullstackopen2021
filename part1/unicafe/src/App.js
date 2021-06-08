@@ -26,7 +26,7 @@ const Statistics = (props) => {
 
 const DisplayStat = (props) => {
 
-  if (props.data.all == 0) {
+  if (props.data.all === 0) {
     return (
       <div>
         No feedback given
