@@ -24,7 +24,7 @@ const Part = (props) => {
 const Content = ({ course }) => {
     let parts=[] 
     course.parts.forEach(element => {
-        parts.push(<Part part={element}></Part>)
+        parts.push(<Part key={element.id+element.name} part={element}></Part>)
     })
 
     return (
@@ -37,7 +37,7 @@ const Content = ({ course }) => {
 const Course = (props) => {
     let allCourses= []
     props.course.forEach(element => {
-        allCourses.push(<div>
+        allCourses.push(<div key={element.id}>
                         <Header course={element}></Header>
                         <Content course={element}></Content>
                         <Total course={element}></Total>
