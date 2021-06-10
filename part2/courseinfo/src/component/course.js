@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = ({ course }) => {
     return (
-      <h1>{course.name}</h1>
+      <h2>{course.name}</h2>
     )
   }
   
@@ -44,7 +44,13 @@ const Course = (props) => {
                         </div>
                         )
     })
-    return allCourses
+    return (
+        <div>
+            <h1>Web development curriculumn</h1>
+            {allCourses}
+        </div>
+        
+        )
 };
 
 export default Course;
