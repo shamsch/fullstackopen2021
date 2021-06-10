@@ -24,7 +24,7 @@ const Part = (props) => {
 const Content = ({ course }) => {
     let parts=[] 
     course.parts.forEach(element => {
-        parts.push(<Part key={element.id+element.name} part={element}></Part>)
+        parts.push(<Part key={element.name} part={element}></Part>)
     })
 
     return (
