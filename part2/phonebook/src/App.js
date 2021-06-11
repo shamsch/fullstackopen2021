@@ -8,9 +8,14 @@ const App = () => {
 
   const addNewPerson = (e) => {
     e.preventDefault()
-    let newPersonObject= {name: newName}
-    setPersons(persons.concat(newPersonObject))
-    setNewName('')
+    if(persons.map(person=> person.name).includes(newName)){
+      alert(newName+" is already added to the phonebook")
+    }
+    else{
+      let newPersonObject= {name: newName}
+      setPersons(persons.concat(newPersonObject))
+      setNewName('')
+    }
   }
 
   const updateNameField = (e) =>{
