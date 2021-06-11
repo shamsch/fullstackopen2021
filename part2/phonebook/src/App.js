@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
-
-const DisplayPhonebook = (props) =>{
-  let displayPersonList= props.filter.length? props.personsList.filter((obj)=> obj.name.toUpperCase()===props.filter.toUpperCase()): props.personsList
-  return(
-    <div>
-      {displayPersonList.map((person, index)=> <p key={index}>{person.name} {person.number}</p>)}
-    </div>
-  )
-}
+import DisplayPhonebook from './components/displayphonebook'
+import Filter from './components/filter'
+import PersonForm from './components/personform'
 
 const App = () => {
   //all states
@@ -51,21 +45,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>filter shown with <input value={filter} onChange={updateFilterField} /></div>
-      <h2>add a new</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={updateNameField}/>
-        </div>
-        <div>number: <input value={newNumber} onChange={updateNumberField} /></div>
-        <div>
-          <button type="submit" onClick={addNewPerson}>add</button>
-        </div>
-      </form>
+      <Filter filter={filter} updateFilterField={updateFilterField}></Filter>
+      <h3>add a new</h3>
+      <PersonForm updateNameField={updateNameField} updateNumberField={updateNumberField} addNewPerson={addNewPerson}></PersonForm>
       <h2>Numbers</h2>
-      <div>
-        <DisplayPhonebook personsList={persons} filter={filter}></DisplayPhonebook>
-      </div>
+      <DisplayPhonebook personsList={persons} filter={filter}></DisplayPhonebook>
     </div>
   )
 }
