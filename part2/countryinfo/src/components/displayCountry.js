@@ -1,4 +1,6 @@
 import React from "react";
+import DisplayWeather from "./displayWeather";
+import ShowInfo from "./showInfo"
 
 function capitalize(s) {
   return s && s[0].toUpperCase() + s.slice(1);
@@ -22,21 +24,8 @@ const DisplayCountry = (props) => {
     if (countriesThatMatch.length === 1) {
       return (
         <div>
-          <h1>{countriesThatMatch[0].name}</h1>
-          <p> capital {countriesThatMatch[0].capital}</p>
-          <p> capital {countriesThatMatch[0].population}</p>
-          <h3>languages</h3>
-          <ul>
-            {countriesThatMatch[0].languages.map((lang, index) => (
-              <li key={index}>{lang.name}</li>
-            ))}
-          </ul>
-          <img
-            src={countriesThatMatch[0].flag}
-            alt={countriesThatMatch[0].name}
-            width="250"
-            height="300"
-          ></img>
+          <ShowInfo country={countriesThatMatch[0]}></ShowInfo>
+          <DisplayWeather city={countriesThatMatch[0].capital}></DisplayWeather>
         </div>
       );
     } else {
