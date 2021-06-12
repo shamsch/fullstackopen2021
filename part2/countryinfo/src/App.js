@@ -21,11 +21,15 @@ function App() {
     setFilter(e.target.value)
   }
 
+  const changeFilterField = (text) => {
+    setFilter(text)
+  }
+
   useEffect(hook, [])
   return (
       <div>
         <Filter filter={filter} updateFilterField={updateFilterField}></Filter>
-        <DisplayCountry data={data} filter={filter}></DisplayCountry>
+        <DisplayCountry data={data} filter={filter} updateFilterField={changeFilterField}></DisplayCountry>
       </div>
   );
 }

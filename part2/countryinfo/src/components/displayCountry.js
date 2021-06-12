@@ -11,6 +11,11 @@ const DisplayCountry = (props) => {
     country.name.includes(filter)
   );
 
+  const handleShow = (e) =>{
+    e.preventDefault()
+    props.updateFilterField(e.target.id)
+  }
+
   if (countriesThatMatch.length > 10 && filter.length > 0) {
     return <div>Too many matches, specify another filter</div>;
   } else if (countriesThatMatch.length > 0 && filter.length > 0) {
@@ -38,7 +43,7 @@ const DisplayCountry = (props) => {
       return (
         <div>
           {countriesThatMatch.map((country) => (
-            <p key={country.name}>{country.name}</p>
+            <p key={country.name}>{country.name} <button id={country.name} onClick={handleShow}>show</button></p>
           ))}
         </div>
       );
