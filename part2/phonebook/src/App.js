@@ -32,16 +32,28 @@ const App = () => {
     } else {
       let newPersonObject = { name: newName, number: newNumber };
 
-      //storing the new person in the server and changing the state causing rerender and displaying the changed list of person newly fetched from the server 
-      services
-      .create(newPersonObject)
-      .then(returnedData => {
-        console.log(returnedData)
-        setPersons(persons.concat(returnedData))
-      })
+      //storing the new person in the server and changing the state causing rerender and displaying the changed list of person newly fetched from the server
+      services.create(newPersonObject).then((returnedData) => {
+        // console.log(returnedData)
+        setPersons(persons.concat(returnedData));
+      });
     }
     setNewName("");
     setNewNumber("");
+  };
+
+  const handelDelete = (id) => {
+    const idNumber= parseInt(id)
+    const personToDelete= persons.find((person)=> person.id===idNumber)
+    console.log(personToDelete)
+    if (window.confirm(`Delete ${personToDelete.name}?`)) {
+      services.remove(id).then(() => {
+        const newPersonList= persons.filter((eachPerson) => eachPerson.id !== idNumber);
+        console.log(newPersonList)
+        setPersons(newPersonList);
+      });
+    }
+    
   };
 
   const updateNameField = (e) => {
@@ -70,6 +82,7 @@ const App = () => {
       <DisplayPhonebook
         personsList={persons}
         filter={filter}
+        handelDelete={handelDelete}
       ></DisplayPhonebook>
     </div>
   );

@@ -6,11 +6,12 @@ const DisplayPhonebook = (props) => {
         (obj) => obj.name.toUpperCase() === props.filter.toUpperCase()
       )
     : props.personsList;
+
   return (
     <div>
-      {displayPersonList.map((person, index) => (
-        <p key={index}>
-          {person.name} {person.number}
+      {displayPersonList.map((person) => (
+        <p key={person.id}>
+          {person.name} {person.number} <button onClick={(e)=> props.handelDelete(e.target.id)} id={person.id}>delete</button>
         </p>
       ))}
     </div>
