@@ -5,6 +5,7 @@ import PersonForm from "./components/personform";
 import services from "./services/backendrequests";
 import './index.css'
 import Notification from "./components/notification";
+import Error from "./components/error";
 
 const App = () => {
   //all states
@@ -12,7 +13,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
-  const [message, setMessage]=useState(null)
+  const [message, setMessage]=useState(null);
+  const [errorMessage,setErrorMessage]=useState(null);
 
   //use effect to fetch data from the server running at port 3001 locally
 
@@ -66,7 +68,12 @@ const App = () => {
           (eachPerson) => eachPerson.id !== idNumber
         );
         setPersons(newPersonList);
-      });
+      }).catch(
+        (error) => {
+          setErrorMessage(`Information of ${personToDelete.name} has already been removed from server`);
+          setTimeout (()=>{setErrorMessage(null)}, 4500)
+        }
+      );
     }
   };
 
@@ -84,6 +91,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={message}></Notification>
+      <Error message={errorMessage}></Error>
       <Filter filter={filter} updateFilterField={updateFilterField}></Filter>
       <h3>add a new</h3>
       <PersonForm
