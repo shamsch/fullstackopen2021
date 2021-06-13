@@ -38,22 +38,24 @@ const App = () => {
         setPersons(persons.concat(returnedData));
       });
     }
+    //either way clearing the input field by modifying the state 
     setNewName("");
     setNewNumber("");
   };
 
   const handelDelete = (id) => {
-    const idNumber= parseInt(id)
-    const personToDelete= persons.find((person)=> person.id===idNumber)
-    console.log(personToDelete)
+    //conversion to int as id parameter by default is a string
+    const idNumber = parseInt(id);
+    const personToDelete = persons.find((person) => person.id === idNumber);
+    //asking for confirmation with a default browser popup 
     if (window.confirm(`Delete ${personToDelete.name}?`)) {
       services.remove(id).then(() => {
-        const newPersonList= persons.filter((eachPerson) => eachPerson.id !== idNumber);
-        console.log(newPersonList)
+        const newPersonList = persons.filter(
+          (eachPerson) => eachPerson.id !== idNumber
+        );
         setPersons(newPersonList);
       });
     }
-    
   };
 
   const updateNameField = (e) => {
