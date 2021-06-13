@@ -11,7 +11,7 @@ const DisplayPhonebook = (props) => {
     <div>
       {displayPersonList.map((person) => (
         <p key={person.id}>
-          {person.name} {person.number} <button onClick={(e)=> props.handelDelete(e.target.id)} id={person.id}>delete</button>
+          {person.name} {person.number} <button onClick={(e)=> props.handleDelete(e.target.id)} id={person.id}>delete</button>
         </p>
       ))}
     </div>

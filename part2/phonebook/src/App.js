@@ -28,7 +28,13 @@ const App = () => {
   const addNewPerson = (e) => {
     e.preventDefault();
     if (allName.includes(newName)) {
-      alert(`${newName} is already added to phonebook`);
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const personWhoseNumberToUpdate= persons.find((person)=> person.name===newName)
+        const newPersonObject= {...personWhoseNumberToUpdate, number: newNumber}
+        services.update(personWhoseNumberToUpdate.id, newPersonObject).then((updatedPerson) => {
+          setPersons(persons.map( (person)=> person.id===personWhoseNumberToUpdate.id? updatedPerson : person));
+        });
+      };
     } else {
       let newPersonObject = { name: newName, number: newNumber };
 
@@ -38,12 +44,12 @@ const App = () => {
         setPersons(persons.concat(returnedData));
       });
     }
-    //either way clearing the input field by modifying the state 
+    //either way clearing the input field by modifying the states
     setNewName("");
     setNewNumber("");
   };
 
-  const handelDelete = (id) => {
+  const handleDelete = (id) => {
     //conversion to int as id parameter by default is a string
     const idNumber = parseInt(id);
     const personToDelete = persons.find((person) => person.id === idNumber);
@@ -84,7 +90,7 @@ const App = () => {
       <DisplayPhonebook
         personsList={persons}
         filter={filter}
-        handelDelete={handelDelete}
+        handleDelete={handleDelete}
       ></DisplayPhonebook>
     </div>
   );
