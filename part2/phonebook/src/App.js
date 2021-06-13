@@ -3,6 +3,8 @@ import DisplayPhonebook from "./components/displayphonebook";
 import Filter from "./components/filter";
 import PersonForm from "./components/personform";
 import services from "./services/backendrequests";
+import './index.css'
+import Notification from "./components/notification";
 
 const App = () => {
   //all states
@@ -10,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [message, setMessage]=useState(null)
 
   //use effect to fetch data from the server running at port 3001 locally
 
@@ -43,6 +46,9 @@ const App = () => {
         // console.log(returnedData)
         setPersons(persons.concat(returnedData));
       });
+
+      setMessage(`Added ${newPersonObject.name}`);
+      setTimeout (()=>{setMessage(null)}, 4500)
     }
     //either way clearing the input field by modifying the states
     setNewName("");
@@ -77,6 +83,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}></Notification>
       <Filter filter={filter} updateFilterField={updateFilterField}></Filter>
       <h3>add a new</h3>
       <PersonForm
