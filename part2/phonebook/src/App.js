@@ -3,7 +3,7 @@ import DisplayPhonebook from "./components/displayphonebook";
 import Filter from "./components/filter";
 import PersonForm from "./components/personform";
 import services from "./services/backendrequests";
-import './index.css'
+import "./index.css";
 import Notification from "./components/notification";
 import Error from "./components/error";
 
@@ -13,8 +13,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
-  const [message, setMessage]=useState(null);
-  const [errorMessage,setErrorMessage]=useState(null);
+  const [message, setMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   //use effect to fetch data from the server running at port 3001 locally
 
@@ -33,24 +33,56 @@ const App = () => {
   const addNewPerson = (e) => {
     e.preventDefault();
     if (allName.includes(newName)) {
-      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
-        const personWhoseNumberToUpdate= persons.find((person)=> person.name===newName)
-        const newPersonObject= {...personWhoseNumberToUpdate, number: newNumber}
-        services.update(personWhoseNumberToUpdate.id, newPersonObject).then((updatedPerson) => {
-          setPersons(persons.map( (person)=> person.id===personWhoseNumberToUpdate.id? updatedPerson : person));
-        });
-      };
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const personWhoseNumberToUpdate = persons.find(
+          (person) => person.name === newName
+        );
+        const newPersonObject = {
+          ...personWhoseNumberToUpdate,
+          number: newNumber,
+        };
+        services
+          .update(personWhoseNumberToUpdate.id, newPersonObject)
+          .then((updatedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id === personWhoseNumberToUpdate.id
+                  ? updatedPerson
+                  : person
+              )
+            );
+          })
+          .catch((error) => {
+            setErrorMessage(`Fail: ${error.response.data.error}`);
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 4500);
+          });
+      }
     } else {
       let newPersonObject = { name: newName, number: newNumber };
 
       //storing the new person in the server and changing the state causing rerender and displaying the changed list of person newly fetched from the server
-      services.create(newPersonObject).then((returnedData) => {
-        // console.log(returnedData)
-        setPersons(persons.concat(returnedData));
-      });
-
-      setMessage(`Added ${newPersonObject.name}`);
-      setTimeout (()=>{setMessage(null)}, 4500)
+      services
+        .create(newPersonObject)
+        .then((returnedData) => {
+          // console.log(returnedData)
+          setPersons(persons.concat(returnedData));
+          setMessage(`Added ${newPersonObject.name}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 4500);
+        })
+        .catch((error) => {
+          setErrorMessage(`Fail: ${error.response.data.error}`);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 4500);
+        });
     }
     //either way clearing the input field by modifying the states
     setNewName("");
@@ -59,21 +91,26 @@ const App = () => {
 
   const handleDelete = (id) => {
     //conversion to int as id parameter by default is a string
-    const idNumber = parseInt(id);
-    const personToDelete = persons.find((person) => person.id === idNumber);
-    //asking for confirmation with a default browser popup 
+    // const idNumber = parseInt(id);
+    const personToDelete = persons.find((person) => person.id === id);
+    //asking for confirmation with a default browser popup
     if (window.confirm(`Delete ${personToDelete.name}?`)) {
-      services.remove(id).then(() => {
-        const newPersonList = persons.filter(
-          (eachPerson) => eachPerson.id !== idNumber
-        );
-        setPersons(newPersonList);
-      }).catch(
-        (error) => {
-          setErrorMessage(`Information of ${personToDelete.name} has already been removed from server`);
-          setTimeout (()=>{setErrorMessage(null)}, 4500)
-        }
-      );
+      services
+        .remove(id)
+        .then(() => {
+          const newPersonList = persons.filter(
+            (eachPerson) => eachPerson.id !== id
+          );
+          setPersons(newPersonList);
+        })
+        .catch((error) => {
+          setErrorMessage(
+            `Information of ${personToDelete.name} has already been removed from server`
+          );
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 4500);
+        });
     }
   };
 
