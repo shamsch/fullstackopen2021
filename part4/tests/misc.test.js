@@ -71,7 +71,7 @@ const favBlog = {
   __v: 0,
 };
 
-describe("total likes", () => {
+describe("Total likes", () => {
   test("of empty list is zero.", () =>
     expect(listHelper.totalLikes([])).toBe(0));
 
@@ -109,5 +109,22 @@ describe("Most blogs of an author", () => {
     expect(listHelper.mostBlogs(listWithManyBlogs)).toEqual({
       author: "Robert C. Martin",
       blogs: 3,
+    }));
+});
+
+describe("Author with the most likes", () => {
+  test("of empty list is null.", () =>
+    expect(listHelper.mostLikes([])).toEqual(null));
+
+  test("when list has only one blog, equals the author of that.", () =>
+    expect(listHelper.mostLikes(listWithOneBlog)).toEqual({
+      author: listWithOneBlog[0].author,
+      likes: listWithOneBlog[0].likes,
+    }));
+
+  test("of a bigger list is calculated right.", () =>
+    expect(listHelper.mostLikes(listWithManyBlogs)).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 17,
     }));
 });

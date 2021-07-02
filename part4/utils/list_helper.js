@@ -1,6 +1,7 @@
 const dummy = (blogs) => {
   return 1;
 };
+
 const totalLikes = (blogs) => {
   const calculateSum = (sum, value) => sum + value.likes;
 
@@ -42,9 +43,35 @@ const mostBlogs = (blogs) => {
   return { author: authorWithMaxBlogs, blogs: maxBlog };
 };
 
+const mostLikes = (blogs) => {
+  if(!blogs.length){
+    return null;
+  }
+  let listOfAuthors = {};
+  for (let blog of blogs) {
+    if (listOfAuthors[blog.author] !== undefined) {
+      listOfAuthors[blog.author] += blog.likes;
+    } else {
+      listOfAuthors[blog.author] = blog.likes;
+    }
+  }
+
+  const authors = Object.keys(listOfAuthors);
+  let authWithMaxLike = authors[0];
+  let maxLike = listOfAuthors[authWithMaxLike];
+  for (let element in listOfAuthors) {
+    if (listOfAuthors[element] > maxLike) {
+      authWithMaxLike = element;
+      maxLike = listOfAuthors[element];
+    }
+  }
+  return { author: authWithMaxLike, likes: maxLike };
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes
 };
