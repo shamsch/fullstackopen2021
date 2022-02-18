@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../../app");
 const Blog = require("../../models/blog");
+const User = require("../../models/user");
+const bcrypt = require("bcryptjs");
 const { requestLogger } = require("../../utils/middleware");
 const helper = require("./test_helper");
 
@@ -131,6 +133,60 @@ describe("testing updating", () => {
       (blog) => blog.id === blogToUpdate.id
     );
     expect(blogThatWasUpdated[0].likes).toBe(18);
+  });
+});
+
+describe("testing database with one user db", () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+
+    const passwordHash = await bcrypt.hash("password", 10);
+    const user = new User({ username: "root", passwordHash });
+
+    await user.save();
+  });
+
+  test("adding new user with unique username", async () => {
+    const usersBefore = await helper.usersInDb();
+
+    const newUser = {
+      username: "unique",
+      name: "user",
+      password: "password",
+    };
+
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAfter = await helper.usersInDb();
+    expect(usersAfter).toHaveLength(usersBefore.length + 1);
+
+    const usernames = usersAfter.map((u) => u.username);
+    expect(usernames).toContain(newUser.username);
+  });
+
+  test("adding new user fails with proper status code and message if username already taken", async () => {
+    const usersBefore = await helper.usersInDb();
+
+    const newUser = {
+      username: usersBefore[0].username,
+      name:"not so unique after all",
+      password: "password",
+    };
+
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.error).toContain("`username` to be unique");
+
+    const usersAfter = await helper.usersInDb();
+    expect(usersAfter).toHaveLength(usersBefore.length);
   });
 });
 

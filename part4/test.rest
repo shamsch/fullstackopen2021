@@ -7,3 +7,12 @@ Content-Type: application/json
   "url": "www.google.com",
   "likes": "1"
 }
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "xax",
+  "name": "me",
+  "password": "ab"
+}
