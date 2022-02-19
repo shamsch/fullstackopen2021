@@ -2,17 +2,17 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "hello world",
-  "author": "me",
+  "title": "why are you a failure",
+  "author": "mr failure",
   "url": "www.google.com",
-  "likes": "1"
+  "likes": "2"
 }
 ###
 POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-  "username": "xax",
-  "name": "me",
-  "password": "ab"
+  "username": "remon",
+  "name": "doremon",
+  "password": "abcdef"
 }
