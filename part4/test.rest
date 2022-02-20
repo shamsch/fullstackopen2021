@@ -1,8 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlbW9uIiwiaWQiOiI2MjExN2UwMDU0ZWZjYzNmOWM0OTMxNjkiLCJpYXQiOjE2NDUzMTUzNjksImV4cCI6MTY0NTMxODk2OX0.2OmTMI-BIMe10tOfrP61qRr2EgJyAGxU9YZfK3klNS0
 
 {
-  "title": "why are you a failure",
+  "title": "this is a new low",
   "author": "mr failure",
   "url": "www.google.com",
   "likes": "2"
@@ -14,5 +15,14 @@ Content-Type: application/json
 {
   "username": "remon",
   "name": "doremon",
+  "password": "abcdef"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "remon",
   "password": "abcdef"
 }
