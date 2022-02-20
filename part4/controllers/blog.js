@@ -11,14 +11,14 @@ blogRouter.get("/", async (request, response) => {
 
 blogRouter.post("/", middleware.userExtractor, async (request, response) => {
   const body = request.body;
-  const user = request.user;
 
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
 
   if (!request.token || !decodedToken.id) {
     return response.status(401).json({ error: "token missing or invalid" });
   }
-
+  
+  const user = request.user;
   const blog = new Blog({ ...body, user: user.id });
 
   const res = await blog.save();

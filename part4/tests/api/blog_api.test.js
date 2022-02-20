@@ -6,8 +6,24 @@ const User = require("../../models/user");
 const bcrypt = require("bcryptjs");
 const { requestLogger } = require("../../utils/middleware");
 const helper = require("./test_helper");
+const jwt = require("jsonwebtoken");
 
 const api = supertest(app);
+
+beforeAll(async () => {
+  await User.deleteMany({});
+  const user = {
+    username: "test",
+    name: "test_user",
+    password: "test_password",
+  };
+
+  await api
+    .post("/api/users")
+    .send(user)
+    .set("Accept", "application/json")
+    .expect("Content-Type", /application\/json/);
+});
 
 beforeEach(async () => {
   await Blog.deleteMany({});
@@ -43,6 +59,16 @@ describe("testing creating", () => {
   });
 
   test("making a post request makes necessary changes in db", async () => {
+    const loginUser = {
+      username: "test",
+      password: "test_password",
+    };
+
+    const loggedUser = await api
+      .post("/api/login")
+      .send(loginUser)
+      .expect("Content-Type", /application\/json/);
+
     const testPost = {
       title: "Test title",
       author: "Test author",
@@ -55,6 +81,7 @@ describe("testing creating", () => {
 
     const res = await api
       .post("/api/blogs")
+      .set("Authorization", `bearer ${loggedUser.body.token}`)
       .send(testPost)
       .expect(200)
       .expect("Content-Type", /application\/json/);
@@ -68,7 +95,53 @@ describe("testing creating", () => {
     expect(allBlogTitles).toContain("Test title");
   });
 
+  test("adding a blog fails with the proper status code 401 Unauthorized if a token is not provided", async () => {
+    const loginUser = {
+      username: "test",
+      password: "test_password",
+    };
+
+    const loggedUser = await api
+      .post("/api/login")
+      .send(loginUser)
+      .expect("Content-Type", /application\/json/);
+
+    const testPost = {
+      title: "Test title",
+      author: "Test author",
+      url: "Test url",
+      likes: 0,
+    };
+
+    const blogsBefore = await helper.blogsInDb();
+    const numberOfBlogsBefore = blogsBefore.length;
+
+    const res = await api
+      .post("/api/blogs")
+      .send(testPost)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+
+    const blogAfter = await helper.blogsInDb();
+    const numberOfBlogsAfter = blogAfter.length;
+
+    expect(numberOfBlogsAfter - numberOfBlogsBefore).toBe(0);
+
+    const allBlogTitles = blogAfter.map((blog) => blog.title);
+    expect(allBlogTitles).toContain("Test title");
+  });
+
   test("check to see whether likes property is missing and default value is 0", async () => {
+    const loginUser = {
+      username: "test",
+      password: "test_password",
+    };
+
+    const loggedUser = await api
+      .post("/api/login")
+      .send(loginUser)
+      .expect("Content-Type", /application\/json/);
+
     const newBlog = {
       title: "Test without like",
       author: "Test",
@@ -77,6 +150,7 @@ describe("testing creating", () => {
 
     const response = await api
       .post("/api/blogs")
+      .set("Authorization", `bearer ${loggedUser.body.token}`)
       .send(newBlog)
       .expect(200)
       .expect("Content-Type", /application\/json/);
@@ -86,6 +160,16 @@ describe("testing creating", () => {
   });
 
   test("verify test with no title and url gets 400 Bad Request", async () => {
+    const loginUser = {
+      username: "test",
+      password: "test_password",
+    };
+
+    const loggedUser = await api
+      .post("/api/login")
+      .send(loginUser)
+      .expect("Content-Type", /application\/json/);
+
     const newBlog = {
       author: "Test",
       likes: 12,
@@ -93,6 +177,7 @@ describe("testing creating", () => {
 
     const response = await api
       .post("/api/blogs")
+      .set("Authorization", `bearer ${loggedUser.body.token}`)
       .send(newBlog)
       .expect(400)
       .expect("Content-Type", /application\/json/);
@@ -101,10 +186,23 @@ describe("testing creating", () => {
 
 describe("testing deleting", () => {
   test("deleting a blog post with valid id and responds with 202 ACCEPTED", async () => {
+    const loginUser = {
+      username: "test",
+      password: "test_password",
+    };
+
+    const loggedUser = await api
+      .post("/api/login")
+      .send(loginUser)
+      .expect("Content-Type", /application\/json/);
+
     const blogsBeforeDelete = await helper.blogsInDb();
     const blogToDelete = blogsBeforeDelete[0];
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(202);
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set("Authorization", `bearer ${loggedUser.body.token}`)
+      .expect(202);
 
     const blogAfterDelete = await helper.blogsInDb();
     const titles = blogAfterDelete.map((blog) => blog.title);
@@ -173,17 +271,14 @@ describe("testing database with one user db", () => {
 
     const newUser = {
       username: usersBefore[0].username,
-      name:"not so unique after all",
+      name: "not so unique after all",
       password: "password",
     };
 
     const result = await api
       .post("/api/users")
       .send(newUser)
-      .expect(400)
-      .expect("Content-Type", /application\/json/);
-
-    expect(result.body.error).toContain("`username` to be unique");
+      .expect(500)
 
     const usersAfter = await helper.usersInDb();
     expect(usersAfter).toHaveLength(usersBefore.length);
