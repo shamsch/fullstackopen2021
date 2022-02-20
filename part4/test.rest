@@ -1,13 +1,13 @@
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlbW9uIiwiaWQiOiI2MjExN2UwMDU0ZWZjYzNmOWM0OTMxNjkiLCJpYXQiOjE2NDUzMTY2Njd9.1CNbbrJ8M7m9y47dsj7rAB1cSPhbJDQ6wdM6GyY9yMw   
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5vdHJlbW9uIiwiaWQiOiI2MjExOWY5ZjliNjllNjBiNjhjOWUzYTQiLCJpYXQiOjE2NDUzMjI2MTAsImV4cCI6MTY0NTMyNjIxMH0.WSf-h3Eil84ss72klZZ_UPd4FIZNOVeWZyGBiIHFfb0  
 
 {
-  "title": "here we go again",
-  "author": "some guy in tampere",
+  "title": "one more post",
+  "author": "gg",
   "url": "www.google.com",
-  "likes": "2"
+  "likes": "32"
 }
 
 ###
