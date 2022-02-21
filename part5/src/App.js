@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
-import Blog from "./components/Blog";
+
+//backend services
+import { getAll, logUserIn, createBlog, setToken } from "./services/blogs";
+
+//components
+import { Blog } from "./components/Blog";
 import { Login } from "./components/Login";
-import blogService from "./services/blogs";
+import { CreateNewBlog } from "./components/CreateNewBlog";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const [saveBlog, setSaveBlog] = useState(null);
 
   const makeLogin = async (username, password) => {
-    const res = await blogService.logUserIn(username, password);
+    const res = await logUserIn(username, password);
     window.localStorage.setItem("user", JSON.stringify(res));
     setUser(res);
+  };
+
+  const handleBlogCreate = async (blog) => {
+    setToken(user.token);
+    const res = await createBlog(blog);
+    setSaveBlog(res);
   };
 
   const handleLogout = () => {
@@ -19,14 +31,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    getAll().then((blogs) => setBlogs(blogs));
     const getUserFromLocal = window.localStorage.getItem("user");
 
     //check if already user is logged in
     if (getUserFromLocal) {
       setUser(JSON.parse(getUserFromLocal));
     }
-  }, []);
+  }, [saveBlog]);
 
   return (
     <div>
@@ -37,6 +49,7 @@ const App = () => {
           <h1> blogs </h1>
           <p>{user.username} logged in</p>
           <button onClick={handleLogout}>logout</button>
+          <CreateNewBlog handleBlogCreate={handleBlogCreate} />
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}

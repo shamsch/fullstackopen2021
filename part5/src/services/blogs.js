@@ -1,15 +1,28 @@
-import axios from 'axios'
-const baseUrl = '/api/blogs'
-const loginUrl= '/api/login'
+import axios from "axios";
+const baseUrl = "/api/blogs";
+const loginUrl = "/api/login";
 
-const getAll = async () => {
-  const request = await axios.get(baseUrl)
-  return request.data
-}
+let token = null;
 
-const logUserIn = async (username, password) => {
-  const request = await axios.post(loginUrl, {username, password})
-  return request.data
-}
+export const setToken = (newToken) => {
+  token = `bearer ${newToken}`;
+  console.log(token);
+};
 
-export default { getAll,logUserIn }
+export const getAll = async () => {
+  const request = await axios.get(baseUrl);
+  return request.data;
+};
+
+export const createBlog = async (blog) => {
+  const config = {
+    headers: { authorization: token },
+  };
+  const res = await axios.post(baseUrl, blog, config);
+  return res.data;
+};
+
+export const logUserIn = async (username, password) => {
+  const res = await axios.post(loginUrl, { username, password });
+  return res.data;
+};
