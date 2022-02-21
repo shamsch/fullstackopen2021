@@ -14,9 +14,14 @@ const App = () => {
   const [saveBlog, setSaveBlog] = useState(null);
 
   const makeLogin = async (username, password) => {
-    const res = await logUserIn(username, password);
-    window.localStorage.setItem("user", JSON.stringify(res));
-    setUser(res);
+    try {
+      const res = await logUserIn(username, password);
+      window.localStorage.setItem("user", JSON.stringify(res));
+      setUser(res);
+      return res;
+    } catch {
+      return null;
+    }
   };
 
   const handleBlogCreate = async (blog) => {
