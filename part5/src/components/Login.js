@@ -1,21 +1,27 @@
+import { useState } from "react";
 
-const Login = () => {
+export const Login = ({makeLogin}) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    makeLogin(username, password);
+  };
+
   return (
     <>
-    <h1>login to the application</h1>
-    <form>
-        <label> 
-            username
-        </label>
-        <input/>
-        <br/>
-        <label> 
-            password
-        </label>
-        <input/>
-    </form>
+      <h1>login to the application</h1>
+      <form onSubmit={(e) => handleLogin(e)}>
+        <label>username</label>
+        <input type="text" onChange={(e) => setUsername(e.target.value)} />
+        <br />
+        <label>password</label>
+        <input type="password" onChange={(e) => setPassword(e.target.value)} />
+        <br />
+        <button>Login</button>
+      </form>
     </>
-  )
-}
+  );
+};
 
-export default Login; 
