@@ -9,11 +9,23 @@ const App = () => {
 
   const makeLogin = async (username, password) => {
     const res = await blogService.logUserIn(username, password);
+    window.localStorage.setItem("user", JSON.stringify(res));
     setUser(res);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    window.localStorage.clear();
   };
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
+    const getUserFromLocal = window.localStorage.getItem("user");
+
+    //check if already user is logged in
+    if (getUserFromLocal) {
+      setUser(JSON.parse(getUserFromLocal));
+    }
   }, []);
 
   return (
@@ -24,6 +36,7 @@ const App = () => {
         <>
           <h1> blogs </h1>
           <p>{user.username} logged in</p>
+          <button onClick={handleLogout}>logout</button>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
