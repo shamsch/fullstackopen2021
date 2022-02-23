@@ -19,8 +19,8 @@ const App = () => {
       window.localStorage.setItem("user", JSON.stringify(res));
       setUser(res);
       return res;
-    } catch {
-      return null;
+    } catch (error) {
+      console.log("error found: ", error);
     }
   };
 
