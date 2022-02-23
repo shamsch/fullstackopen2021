@@ -26,3 +26,8 @@ export const logUserIn = async (username, password) => {
   const res = await axios.post(loginUrl, { username, password });
   return res.data;
 };
+
+export const updateUserLike = async (user) => {
+  const res = await axios.put(`${baseUrl}/${user.id}`, user);
+  return res.data;
+};
