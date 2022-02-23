@@ -35,8 +35,12 @@ const App = () => {
     window.localStorage.clear();
   };
 
-  useEffect(() => {
-    getAll().then((blogs) => setBlogs(blogs));
+  useEffect(() => { 
+    getAll().then((res)=>{
+      res.sort((a,b)=>b.likes-a.likes);
+      setBlogs(res)
+    })
+
     const getUserFromLocal = window.localStorage.getItem("user");
 
     //check if already user is logged in
@@ -44,6 +48,8 @@ const App = () => {
       setUser(JSON.parse(getUserFromLocal));
     }
   }, [saveBlog]);
+
+ 
 
   return (
     <div>
