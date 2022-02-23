@@ -43,6 +43,7 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
             onChange={(e) =>
               setNewblog({ ...newBlog, title: `${e.target.value}` })
             }
+            value={newBlog.title}
           />
           <br />
           <label>author</label>
@@ -51,6 +52,7 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
             onChange={(e) =>
               setNewblog({ ...newBlog, author: `${e.target.value}` })
             }
+            value={newBlog.author}
           />
           <br />
           <label>url</label>
@@ -59,6 +61,7 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
             onChange={(e) =>
               setNewblog({ ...newBlog, url: `${e.target.value}` })
             }
+            value={newBlog.url}
           />
           <br />
           <button>create</button>
