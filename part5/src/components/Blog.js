@@ -3,7 +3,7 @@ import { updateUserLike } from "../services/blogs";
 
 export const Blog = ({blog}) => {
   const [view, setView] = useState(false);
-
+  
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
