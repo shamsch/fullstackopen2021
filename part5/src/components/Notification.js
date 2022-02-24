@@ -7,6 +7,6 @@ export const Notification = ({color, text}) => {
 }
 
 Notification.propTypes ={
-  color: PropTypes.string.isRequired, 
+  color: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
 }
