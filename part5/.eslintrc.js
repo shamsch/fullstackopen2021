@@ -18,7 +18,6 @@ module.exports = {
     indent: ["error", 2],
     "linebreak-style": ["error", "windows"],
     eqeqeq: "error",
-    "arrow-spacing": ["error", { before: true, after: true }],
     "no-console": 0,
     "react/prop-types": 0,
     "react/react-in-jsx-scope": "off",
