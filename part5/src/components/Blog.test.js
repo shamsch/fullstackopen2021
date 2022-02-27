@@ -11,6 +11,7 @@ const testBlog = {
   url: "https://www.facebook.com/"
 };
 
+
 test("checks component displaying blog's title and author, not url or likes by default.", () => {
   const {container} = render(<Blog blog={testBlog}/>)
 
@@ -27,7 +28,7 @@ test("checks component displaying blog's title and author, not url or likes by d
   expect(title).toHaveTextContent("test")
 });
 
-test('should first', () => {
+test('blog url and like visible when view is clicked', () => {
   const {container} = render(<Blog blog={testBlog}/>)
 
   const viewButton = container.querySelector(".view")
@@ -40,4 +41,19 @@ test('should first', () => {
   expect(url).toHaveStyle("display: block;")
   expect(likes).toHaveStyle("display: block;")
 
+})
+
+test("check when like button is clicked twice the handler function is called twice", ()=>{
+  const mockEventHandler = jest.fn();
+
+  const {container} = render(<Blog blog={testBlog} handlerFunction={mockEventHandler}/>)
+  
+  const viewButton = container.querySelector(".view")
+  userEvent.click(viewButton)
+
+  const likeButton = container.querySelector(".like-btn")
+  userEvent.click(likeButton)
+  userEvent.click(likeButton)
+
+  expect(mockEventHandler.mock.calls).toHaveLength(2)
 })

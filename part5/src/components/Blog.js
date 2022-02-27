@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { deleteUser, setToken, updateBlogLike } from "../services/blogs";
 
-export const Blog = ({ blog }) => {
+export const Blog = ({ blog, handlerFunction }) => {
   const [view, setView] = useState(false);
 
   const blogStyle = {
@@ -54,7 +54,7 @@ export const Blog = ({ blog }) => {
         </p>
         <p style={stylesForDetail} className="like">
           {blog.likes}{" "}
-          <button onClick={() => handleLikeClick(blog)}>like</button>
+          <button className="like-btn" onClick={() => handlerFunction? handlerFunction() : handleLikeClick(blog)}>like</button>
         </p>
         <p className="author" style={stylesForDetail}>
           {blog.author}
