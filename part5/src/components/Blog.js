@@ -46,7 +46,7 @@ export const Blog = ({ blog }) => {
     <div style={blogStyle}>
       <>
         <p className="title">{blog.title} </p>
-        <button onClick={() => (view ? setView(false) : setView(true))}>
+        <button className="view" onClick={() => (view ? setView(false) : setView(true))}>
           view
         </button>
         <p style={stylesForDetail} className="url">
