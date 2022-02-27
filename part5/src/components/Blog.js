@@ -45,18 +45,20 @@ export const Blog = ({ blog }) => {
   return (
     <div style={blogStyle}>
       <>
-        <p>
-          {blog.title}{" "}
-          <button onClick={() => (view ? setView(false) : setView(true))}>
-            view
-          </button>
+        <p className="title">{blog.title} </p>
+        <button onClick={() => (view ? setView(false) : setView(true))}>
+          view
+        </button>
+        <p style={stylesForDetail} className="url">
+          {blog.url}
         </p>
-        <p style={stylesForDetail}>{blog.url}</p>
-        <p style={stylesForDetail}>
+        <p style={stylesForDetail} className="like">
           {blog.likes}{" "}
           <button onClick={() => handleLikeClick(blog)}>like</button>
         </p>
-        <p style={stylesForDetail}>{blog.author}</p>
+        <p className="author" style={stylesForDetail}>
+          {blog.author}
+        </p>
         <button onClick={() => handleRemove(blog)}>remove</button>
       </>
     </div>
