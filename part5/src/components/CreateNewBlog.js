@@ -44,6 +44,7 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
               setNewblog({ ...newBlog, title: `${e.target.value}` })
             }
             value={newBlog.title}
+            className="title"
           />
           <br />
           <label>author</label>
@@ -53,6 +54,7 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
               setNewblog({ ...newBlog, author: `${e.target.value}` })
             }
             value={newBlog.author}
+            className="author"
           />
           <br />
           <label>url</label>
@@ -62,9 +64,10 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
               setNewblog({ ...newBlog, url: `${e.target.value}` })
             }
             value={newBlog.url}
+            className="url"
           />
           <br />
-          <button>create</button>
+          <button className="create">create</button>
         </form>
         <button
           onClick={() => {
