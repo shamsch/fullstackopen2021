@@ -25,12 +25,12 @@ export const Login = ({ makeLogin }) => {
       ) : null}
       <form onSubmit={(e) => handleLogin(e)}>
         <label>username</label>
-        <input type="text" onChange={(e) => setUsername(e.target.value)} />
+        <input type="text" onChange={(e) => setUsername(e.target.value)} id={"username"} />
         <br />
         <label>password</label>
-        <input type="password" onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" onChange={(e) => setPassword(e.target.value)} id={"password"} />
         <br />
-        <button>Login</button>
+        <button id={"login-button"}>Login</button>
       </form>
     </>
   );
