@@ -30,7 +30,7 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
 
   return (
     <div>
-      {!show && <button onClick={() => setShow(true)}>new blog</button>}
+      {!show && <button id={"newblog"} onClick={() => setShow(true)}>new blog</button>}
       <div style={showStyles}>
         <h1>Create new</h1>
         {showNotif ? (
@@ -73,6 +73,7 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
           onClick={() => {
             setShow(false);
           }}
+          className="cancel"
         >
           cancel
         </button>

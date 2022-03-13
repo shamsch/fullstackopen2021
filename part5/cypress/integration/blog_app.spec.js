@@ -32,4 +32,21 @@ describe('Blog app', function() {
           cy.get('#notification').should('have.css', 'background-color', 'rgb(255, 0, 0)')
         })
       })
+
+      describe('When logged in', function() {
+        beforeEach(function() {
+          cy.get('#username').type('remon')
+          cy.get('#password').type('123456')
+          cy.get('#login-button').click()
+        })
+    
+        it('A blog can be created', function() {
+          cy.get("#newblog").click()
+          cy.get(".title").type("test blog")
+          cy.get(".author").type("by test blogger")
+          cy.get(".url").type("https://www.google.com/")
+          cy.get(".create").click()
+          cy.contains("test blog")
+        })
+      })
   })
