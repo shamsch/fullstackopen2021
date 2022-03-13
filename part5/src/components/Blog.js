@@ -35,6 +35,9 @@ export const Blog = ({ blog, handlerFunction }) => {
 
       try {
         const res = await deleteUser(blogToDelete);
+        if(res){
+          window.alert("Blog removed")
+        }
         console.log("Deleted status:", res);
       } catch (error) {
         console.log(error.message);
@@ -59,7 +62,7 @@ export const Blog = ({ blog, handlerFunction }) => {
         <p className="author" style={stylesForDetail}>
           {blog.author}
         </p>
-        <button onClick={() => handleRemove(blog)}>remove</button>
+        <button onClick={() => handleRemove(blog)} id={"remove"}>remove</button>
       </>
     </div>
   );

@@ -6,6 +6,11 @@ describe('Blog app', function() {
           username: 'remon',
           password: '123456'
         }
+        const altUser = {
+          name: 'Not Remon',
+          username: 'notremon',
+          password: '123456'
+        }
         cy.request('POST', 'http://localhost:3003/api/users', user) 
         cy.visit('http://localhost:3000')
       })
@@ -49,4 +54,31 @@ describe('Blog app', function() {
           cy.contains("test blog")
         })
       })
+
+      describe('After a blog is created', function() {
+        beforeEach(function() {
+          cy.get('#username').type('remon')
+          cy.get('#password').type('123456')
+          cy.get('#login-button').click()
+          cy.get("#newblog").click()
+          cy.get(".title").type("test blog")
+          cy.get(".author").type("by test blogger")
+          cy.get(".url").type("https://www.google.com/")
+          cy.get(".create").click()
+        })
+
+        it("The blog can be liked", function (){
+          cy.get(".view").click()
+          cy.get(".like").click()
+        })
+
+        it("Blog can be deleted", function (){
+          cy.get("#remove").click()
+          cy.on('window:confirm', () => true)
+          cy.on('window:alert', (str) => {
+            expect(str).to.equal('Blog removed')
+          })
+        })
+      })
+      
   })
