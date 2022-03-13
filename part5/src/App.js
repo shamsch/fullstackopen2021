@@ -35,11 +35,11 @@ const App = () => {
     window.localStorage.clear();
   };
 
-  useEffect(() => { 
-    getAll().then((res)=>{
-      res.sort((a,b)=>b.likes-a.likes);
-      setBlogs(res)
-    })
+  useEffect(() => {
+    getAll().then((res) => {
+      res.sort((a, b) => b.likes - a.likes);
+      setBlogs(res);
+    });
 
     const getUserFromLocal = window.localStorage.getItem("user");
 
@@ -49,8 +49,6 @@ const App = () => {
     }
   }, [saveBlog]);
 
-
-
   return (
     <div>
       {!user ? (
@@ -59,11 +57,15 @@ const App = () => {
         <>
           <h1> blogs </h1>
           <p>{user.username} logged in</p>
-          <button onClick={handleLogout} className={"logout"}>logout</button>
+          <button onClick={handleLogout} className={"logout"}>
+            logout
+          </button>
           <CreateNewBlog handleBlogCreate={handleBlogCreate} />
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
+          <div className="blogs">
+            {blogs.map((blog) => (
+              <Blog key={blog.id} blog={blog} />
+            ))}
+          </div>
         </>
       )}
     </div>

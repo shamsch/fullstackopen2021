@@ -46,7 +46,7 @@ export const Blog = ({ blog, handlerFunction }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className={"blogBody"}>
       <>
         <p className="title">{blog.title} </p>
         <button className="view" onClick={() => (view ? setView(false) : setView(true))}>
