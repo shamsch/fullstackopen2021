@@ -28,6 +28,17 @@ export const registerVote = (id) => {
   };
 };
 
+export const newAnecdote = (content) => {
+  return {
+    type: "ADD",
+    data: {
+      content,
+      id: getId(),
+      votes: 0,
+    },
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "VOTE_UP":
@@ -40,6 +51,9 @@ const reducer = (state = initialState, action) => {
       return state.map((anecdote) =>
         anecdote.id === id ? updatedAnecdote : anecdote
       );
+
+    case "ADD":
+      return [...state, action.data]
     default:
       return state;
   }
