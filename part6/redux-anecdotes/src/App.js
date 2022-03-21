@@ -12,6 +12,15 @@ const App = () => {
     dispatch(registerVote(id))
   }
 
+  anecdotes.sort((a,b)=>{
+    if(a.votes>b.votes){
+      return -1
+    }
+    else{
+      return 1
+    }
+  })
+
   return (
     <div>
       <h2>Anecdotes</h2>
