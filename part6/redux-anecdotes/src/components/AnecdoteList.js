@@ -1,12 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { registerVote } from "../reducers/anecdoteReducer";
+import { registerVote } from "../reducers/store";
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
-  const anecdotes = useSelector((state) => state);
-  
-  anecdotes.sort((a, b) => {
+  const anecdotes = useSelector((state) => state.anecdote);
+  const sortAnecdotes = [...anecdotes]
+  sortAnecdotes.sort((a, b) => {
     if (a.votes > b.votes) {
       return -1;
     } else {
@@ -18,7 +18,7 @@ const AnecdoteList = () => {
     dispatch(registerVote(id));
   }
 
-  return anecdotes.map((anecdote) => (
+  return sortAnecdotes.map((anecdote) => (
     <div key={anecdote.id}>
       <div>{anecdote.content}</div>
       <div>
