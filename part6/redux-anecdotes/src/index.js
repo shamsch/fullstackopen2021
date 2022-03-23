@@ -1,15 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import App from './App'
-import anecdoteReducer from './reducers/store'
+import store from './store'
 
-const store = configureStore({
-  reducer:{
-    anecdote: anecdoteReducer
-  }
-})
 
 ReactDOM.render(
   <Provider store={store}>

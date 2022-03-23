@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { registerVote } from "../reducers/store";
+import { registerVote } from "../reducers/anecdoteReducer";
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
