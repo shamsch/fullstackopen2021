@@ -5,8 +5,23 @@ const initialState = "notification default message";
 const notificationSlice = createSlice({
   name: "notification",
   initialState,
-  reducers: {},
+  reducers: {
+    voteMessage(state, action) {
+      const anecdote = action.payload;
+      state = "you voted '" + anecdote + "'";
+      return state;
+    },
+    createMessage(state, action) {
+      const anecdote = action.payload;
+      state = "you created the anecdote'" + anecdote + "'";
+      return state;
+    },
+    clearNotification(state) {
+      state = "";
+      return state;
+    },
+  },
 });
 
-export const { getNotification } = notificationSlice.actions;
+export const { clearNotification, voteMessage, createMessage } = notificationSlice.actions;
 export default notificationSlice.reducer;
