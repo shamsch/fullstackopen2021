@@ -6,7 +6,15 @@ import {voteMessage, clearNotification} from "../reducers/notificationReducer";
 const AnecdoteList = () => {
   const dispatch = useDispatch();
   const anecdotes = useSelector((state) => state.anecdote);
-  const sortAnecdotes = [...anecdotes]
+  const filter = useSelector((state) => state.filter);
+
+  const filteredAnecdote = anecdotes.filter((anecdote)=>{
+    if(anecdote.content.includes(filter)){
+      return anecdote
+    }
+  })
+
+  const sortAnecdotes = [...filteredAnecdote]
   sortAnecdotes.sort((a, b) => {
     if (a.votes > b.votes) {
       return -1;
