@@ -12,6 +12,7 @@ const AnecdoteList = () => {
     if(anecdote.content.includes(filter)){
       return anecdote
     }
+    return null; 
   })
 
   const sortAnecdotes = [...filteredAnecdote]
