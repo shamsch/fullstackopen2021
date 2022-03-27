@@ -6,7 +6,7 @@ const getId = () => (100000 * Math.random()).toFixed(0);
 
 export const getAll = async () => {
   const res = await axios.get(baseurl);
-  return res;
+  return res.data;
 };
 
 export const addAnecdote = async (content) => {
