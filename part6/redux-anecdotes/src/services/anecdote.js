@@ -14,3 +14,4 @@ export const addAnecdote = async (content) => {
   const res = await axios.post(baseurl, anecdote);
   return res;
 };
+
