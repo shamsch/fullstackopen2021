@@ -1,21 +1,20 @@
-import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
-import { createAnecdote, newAnecdote } from "../reducers/anecdoteReducer";
-import {createMessage,clearNotification, setNotification} from "../reducers/notificationReducer"
+import { createAnecdote } from "../reducers/anecdoteReducer";
+import { setNotification} from "../reducers/notificationReducer"
 
-import { addAnecdote } from "../services/anecdote";
 
-const AnecdoteForm = () => {
-  const dispatch = useDispatch();
+const AnecdoteForm = (props) => {
+  // const dispatch = useDispatch();
 
   const add = (event) => {
     event.preventDefault();
     const anecdoteData = event.target.anecdote.value;
     event.target.anecdote.value = "";
-    dispatch(createAnecdote(anecdoteData))
+    props.createAnecdote(anecdoteData)
 
     //notification handling 
-    dispatch(setNotification(`added ${anecdoteData}`, 10))
+    props.setNotification(`added ${anecdoteData}`, 10)
     // dispatch(createMessage(anecdoteData));
     // setTimeout(() => {
     //   dispatch(clearNotification())
@@ -33,4 +32,14 @@ const AnecdoteForm = () => {
   );
 };
 
-export default AnecdoteForm;
+const mapStateToProps = () => {
+  return {};
+};
+
+const mapDispatchToProps = {
+  setNotification, 
+  createAnecdote,
+};
+
+const ConnectedAnecdoteForm = connect(mapStateToProps, mapDispatchToProps)(AnecdoteForm)
+export default ConnectedAnecdoteForm;
