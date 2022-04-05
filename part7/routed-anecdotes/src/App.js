@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { BrowserRouter, Route, Routes, Navigate, Link } from "react-router-dom";
+import { useMatch, Route, Routes, Navigate, Link } from "react-router-dom";
 
 const Menu = () => {
   const padding = {
@@ -26,7 +26,9 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map((anecdote) => (
-        <li key={anecdote.id}>{anecdote.content}</li>
+        <li key={anecdote.id}>
+          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
       ))}
     </ul>
   </div>
@@ -114,6 +116,22 @@ const CreateNew = (props) => {
   );
 };
 
+const Anecdote = ({ data }) => {
+  const { content, author, votes, info } = data;
+  return (
+    <>
+      <h3>
+        {content} by {author}
+      </h3>
+      <p>has {votes} votes</p>
+      <p>
+        {" "}
+        for more info see <a href={info}>{info}</a>{" "}
+      </p>
+    </>
+  );
+};
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -132,14 +150,16 @@ const App = () => {
     },
   ]);
 
+  const match = useMatch("/anecdotes/:id");
+  const anecdoteById = (id) => anecdotes.find((a) => a.id === Number(id));
+  const anecdote = match ? anecdoteById(match.params.id) : null;
+
   const [notification, setNotification] = useState("");
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
   };
-
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
 
   const vote = (id) => {
     const anecdote = anecdoteById(id);
@@ -158,11 +178,11 @@ const App = () => {
       <Menu />
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
-        <Route path="/about" element={<About />}/>
+        <Route path="/about" element={<About />} />
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route path="/anecdotes/:id" element={<Anecdote data={anecdote} />} />
       </Routes>
       <Footer />
-     
     </div>
   );
 };
