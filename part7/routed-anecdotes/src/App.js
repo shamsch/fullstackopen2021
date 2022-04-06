@@ -70,10 +70,11 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const content = useField("text");
-  const author = useField("text");
-  const info = useField("text");
+  const {reset:resetContent,...content} = useField("text");
+  const {reset:resetAuthor,...author} = useField("text");
+  const {reset:resetInfo,...info} = useField("text");
   const navigate = useNavigate();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,6 +90,12 @@ const CreateNew = (props) => {
       props.setNotification("");
     }, 5000);
   };
+
+  const resetAll = () => {
+    resetContent()
+    resetInfo()
+    resetAuthor()
+  }
 
   
   return (
@@ -109,6 +116,7 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+        <button onClick={()=> resetAll()}>reset</button>
     </div>
   );
 };
