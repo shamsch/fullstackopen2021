@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { deleteUser, setToken, updateBlogLike } from "../services/blogs";
 
+
 export const Blog = ({ blog, handlerFunction }) => {
   const [view, setView] = useState(false);
 

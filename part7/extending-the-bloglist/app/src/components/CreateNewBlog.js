@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Notification } from "./Notification";
+import { useSelector, useDispatch } from "react-redux";
+import { changeCreateNoteNotification } from "../reducer/notificationReducer";
 
 const DEFAULT_BLOG = {
   title: "",
@@ -9,8 +11,9 @@ const DEFAULT_BLOG = {
 
 export const CreateNewBlog = ({ handleBlogCreate }) => {
   const [newBlog, setNewblog] = useState(DEFAULT_BLOG);
-  const [showNotif, setShowNotif] = useState(false);
-
+  const showNotif = useSelector((state)=> state.notification.createNote);
+  console.log(showNotif)
+  const dispatch = useDispatch()
   const [show, setShow] = useState(false);
 
   const showStyles = { display: show ? "" : "none" };
@@ -20,9 +23,9 @@ export const CreateNewBlog = ({ handleBlogCreate }) => {
 
     handleBlogCreate(newBlog);
 
-    setShowNotif(true);
+    dispatch(changeCreateNoteNotification());
     setTimeout(() => {
-      setShowNotif(false);
+      dispatch(changeCreateNoteNotification());
     }, 5000);
 
     setNewblog(DEFAULT_BLOG);

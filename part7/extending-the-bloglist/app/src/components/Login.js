@@ -1,18 +1,22 @@
 import { useState } from "react";
+import { changeLoginNotification } from "../reducer/notificationReducer";
 import { Notification } from "./Notification";
+import { useSelector, useDispatch } from "react-redux";
 
 export const Login = ({ makeLogin }) => {
+  const notificationStatus = useSelector((state)=>state.notification.login)
+  const dispatch = useDispatch()
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showNotif, setShowNotif] = useState(false);
+  // const [showNotif, setShowNotif] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const res = await makeLogin(username, password)
     if (!res) {
-      setShowNotif(true);
+      dispatch(changeLoginNotification());
       setTimeout(() => {
-        setShowNotif(false);
+        dispatch(changeLoginNotification());
       }, 5000);
     }
   };
@@ -20,7 +24,7 @@ export const Login = ({ makeLogin }) => {
   return (
     <>
       <h1>login to the application</h1>
-      {showNotif ? (
+      {notificationStatus ? (
         <Notification color={"red"} text={"Login credential invalid"} />
       ) : null}
       <form onSubmit={(e) => handleLogin(e)}>
