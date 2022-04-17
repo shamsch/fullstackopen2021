@@ -1,3 +1,4 @@
+//liking and deleting works as normal after using redux state so i guess it's done too
 import React, { useState } from "react";
 import { deleteUser, setToken, updateBlogLike } from "../services/blogs";
 
