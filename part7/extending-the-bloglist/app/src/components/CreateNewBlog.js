@@ -12,7 +12,6 @@ const DEFAULT_BLOG = {
 export const CreateNewBlog = ({ handleBlogCreate }) => {
   const [newBlog, setNewblog] = useState(DEFAULT_BLOG);
   const showNotif = useSelector((state)=> state.notification.createNote);
-  console.log(showNotif)
   const dispatch = useDispatch()
   const [show, setShow] = useState(false);
 

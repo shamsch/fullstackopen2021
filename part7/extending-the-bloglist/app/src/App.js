@@ -7,11 +7,15 @@ import { getAll, logUserIn, createBlog, setToken } from "./services/blogs";
 import { Blog } from "./components/Blog";
 import { Login } from "./components/Login";
 import { CreateNewBlog } from "./components/CreateNewBlog";
+import { useDispatch, useSelector } from "react-redux";
+import { addBlog, addManyBlog } from "./reducer/blogReducer";
+
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  const dispatch = useDispatch()
   const [user, setUser] = useState(null);
-  const [saveBlog, setSaveBlog] = useState(null);
+
+  const blogs = useSelector((state)=>state.blog)
 
   const makeLogin = async (username, password) => {
     try {
@@ -27,7 +31,8 @@ const App = () => {
   const handleBlogCreate = async (blog) => {
     setToken(user.token);
     const res = await createBlog(blog);
-    setSaveBlog(res);
+    console.log(res)
+    dispatch(addBlog(res));
   };
 
   const handleLogout = () => {
@@ -38,7 +43,7 @@ const App = () => {
   useEffect(() => {
     getAll().then((res) => {
       res.sort((a, b) => b.likes - a.likes);
-      setBlogs(res);
+      dispatch(addManyBlog(res));
     });
 
     const getUserFromLocal = window.localStorage.getItem("user");
@@ -47,7 +52,7 @@ const App = () => {
     if (getUserFromLocal) {
       setUser(JSON.parse(getUserFromLocal));
     }
-  }, [saveBlog]);
+  }, []);
 
   return (
     <div>
