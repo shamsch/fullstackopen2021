@@ -9,7 +9,8 @@ import { Login } from "./components/Login";
 import { CreateNewBlog } from "./components/CreateNewBlog";
 import { useDispatch, useSelector } from "react-redux";
 import { addBlog, addManyBlog } from "./reducer/blogReducer";
-import { addUser, deleteUser } from "./reducer/userReducer";
+import { addUser } from "./reducer/userReducer";
+import Navbar from "./components/Navbar";
 
 
 const App = () => {
@@ -17,6 +18,14 @@ const App = () => {
 
   const user = useSelector((state)=> state.user)
   const blogs = useSelector((state)=>state.blog)
+
+  const handleBlogCreate = async (blog) => {
+    setToken(user.token);
+    const res = await createBlog(blog);
+    console.log(res)
+    dispatch(addBlog(res));
+  };
+
 
   const makeLogin = async (username, password) => {
     try {
@@ -27,18 +36,6 @@ const App = () => {
     } catch (error) {
       console.log("error found: ", error);
     }
-  };
-
-  const handleBlogCreate = async (blog) => {
-    setToken(user.token);
-    const res = await createBlog(blog);
-    console.log(res)
-    dispatch(addBlog(res));
-  };
-
-  const handleLogout = () => {
-    dispatch(deleteUser());
-    window.localStorage.clear();
   };
 
   useEffect(() => {
@@ -61,11 +58,7 @@ const App = () => {
         <Login makeLogin={makeLogin} />
       ) : (
         <>
-          <h1> blogs </h1>
-          <p>{user.username} logged in</p>
-          <button onClick={handleLogout} className={"logout"}>
-            logout
-          </button>
+          <Navbar/>
           <CreateNewBlog handleBlogCreate={handleBlogCreate} />
           <div className="blogs">
             {blogs.map((blog) => (

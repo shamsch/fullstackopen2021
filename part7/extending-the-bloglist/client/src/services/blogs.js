@@ -1,6 +1,7 @@
 import axios from "axios";
 const baseUrl = "/api/blogs";
 const loginUrl = "/api/login";
+const userUrl = '/api/users'
 
 let token = null;
 
@@ -44,3 +45,8 @@ export const deleteUser = async (user) => {
   const res = await axios.delete(`${baseUrl}/${user.id}`, config);
   return res;
 };
+
+export const allUser = async () => {
+  const res = await axios.get(userUrl);
+  return res
+}
