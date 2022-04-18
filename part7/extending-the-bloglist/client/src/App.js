@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 //backend services
 import { getAll, logUserIn, createBlog, setToken } from "./services/blogs";
@@ -9,19 +9,20 @@ import { Login } from "./components/Login";
 import { CreateNewBlog } from "./components/CreateNewBlog";
 import { useDispatch, useSelector } from "react-redux";
 import { addBlog, addManyBlog } from "./reducer/blogReducer";
+import { addUser, deleteUser } from "./reducer/userReducer";
 
 
 const App = () => {
   const dispatch = useDispatch()
-  const [user, setUser] = useState(null);
 
+  const user = useSelector((state)=> state.user)
   const blogs = useSelector((state)=>state.blog)
 
   const makeLogin = async (username, password) => {
     try {
       const res = await logUserIn(username, password);
       window.localStorage.setItem("user", JSON.stringify(res));
-      setUser(res);
+      dispatch(addUser(res));
       return res;
     } catch (error) {
       console.log("error found: ", error);
@@ -36,7 +37,7 @@ const App = () => {
   };
 
   const handleLogout = () => {
-    setUser(null);
+    dispatch(deleteUser());
     window.localStorage.clear();
   };
 
@@ -50,7 +51,7 @@ const App = () => {
 
     //check if already user is logged in
     if (getUserFromLocal) {
-      setUser(JSON.parse(getUserFromLocal));
+      dispatch(addUser(JSON.parse(getUserFromLocal)))
     }
   }, []);
 
