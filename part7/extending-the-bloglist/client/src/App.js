@@ -12,20 +12,18 @@ import { addBlog, addManyBlog } from "./reducer/blogReducer";
 import { addUser } from "./reducer/userReducer";
 import Navbar from "./components/Navbar";
 
-
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const user = useSelector((state)=> state.user)
-  const blogs = useSelector((state)=>state.blog)
+  const user = useSelector((state) => state.user);
+  const blogs = useSelector((state) => state.blog);
 
   const handleBlogCreate = async (blog) => {
     setToken(user.token);
     const res = await createBlog(blog);
-    console.log(res)
+    console.log(res);
     dispatch(addBlog(res));
   };
-
 
   const makeLogin = async (username, password) => {
     try {
@@ -39,6 +37,8 @@ const App = () => {
   };
 
   useEffect(() => {
+    console.log(blogs);
+
     getAll().then((res) => {
       res.sort((a, b) => b.likes - a.likes);
       dispatch(addManyBlog(res));
@@ -48,7 +48,7 @@ const App = () => {
 
     //check if already user is logged in
     if (getUserFromLocal) {
-      dispatch(addUser(JSON.parse(getUserFromLocal)))
+      dispatch(addUser(JSON.parse(getUserFromLocal)));
     }
   }, []);
 
@@ -58,7 +58,7 @@ const App = () => {
         <Login makeLogin={makeLogin} />
       ) : (
         <>
-          <Navbar/>
+          <Navbar />
           <CreateNewBlog handleBlogCreate={handleBlogCreate} />
           <div className="blogs">
             {blogs.map((blog) => (

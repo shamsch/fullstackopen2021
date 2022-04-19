@@ -5,10 +5,10 @@ const blogSlice = createSlice({
   initialState: [],
   reducers: {
     addBlog(state,action) {
-      return [...state, action.payload]
+      return  [...state, action.payload]
     },
     addManyBlog(state,action){
-        return [...state, ...action.payload]
+        return [...action.payload];
     }
   },
 });
