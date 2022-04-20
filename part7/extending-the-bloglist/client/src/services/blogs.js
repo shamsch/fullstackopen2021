@@ -50,3 +50,8 @@ export const allUser = async () => {
   const res = await axios.get(userUrl);
   return res
 }
+
+export const postComment = async (id, comment) => {
+  const res = await axios.post(`${baseUrl}/${id}/comments`, {comment})
+  return res
+}

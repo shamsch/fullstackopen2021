@@ -37,8 +37,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log(blogs);
-
     getAll().then((res) => {
       res.sort((a, b) => b.likes - a.likes);
       dispatch(addManyBlog(res));
