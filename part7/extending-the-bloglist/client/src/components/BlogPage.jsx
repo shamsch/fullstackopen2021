@@ -21,7 +21,7 @@ const BlogPage = () => {
     };
     const res = await updateBlogLike(updatedBlog);
     console.log("Blog update complete: ", res);
-    window.location.reload()
+    window.location.reload();
   };
 
   return (
@@ -32,9 +32,16 @@ const BlogPage = () => {
           <h1>{blog.title}</h1>
           <a href={`${blog.url}`}>{blog.url}</a>
           <p>
-            {blog.likes} likes <button onClick={()=> handleLike(blog)}>like</button>{" "}
+            {blog.likes} likes{" "}
+            <button onClick={() => handleLike(blog)}>like</button>{" "}
           </p>
           <p> added by {blog.author}</p>
+          <h2>comments</h2>
+          <ul>
+            {blog.comments.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+          </ul>
         </>
       ) : (
         <></>
