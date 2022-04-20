@@ -72,4 +72,21 @@ blogRouter.delete(
   }
 );
 
+blogRouter.post("/:id/comments", async (req, res)=>{
+  const comment = req.body.comment 
+  const {_doc}= await Blog.findById(req.params.id)
+
+  const blogWithComment = {
+    ..._doc, comments: [..._doc.comments, comment]
+  }
+  console.log(blogWithComment)
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    blogWithComment,
+    { new: true }
+  );
+
+  res.json(updatedBlog);
+})
+
 module.exports = blogRouter;
