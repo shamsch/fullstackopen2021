@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addBlog, addManyBlog } from "./reducer/blogReducer";
 import { addUser } from "./reducer/userReducer";
 import Navbar from "./components/Navbar";
+import { Box } from "@mui/material";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <Box sx={{backgroundColor: "whitesmoke"}}>
       {!user ? (
         <Login makeLogin={makeLogin} />
       ) : (
@@ -65,7 +66,7 @@ const App = () => {
           </div>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

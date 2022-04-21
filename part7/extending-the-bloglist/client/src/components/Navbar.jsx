@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { addUser, deleteUser } from "../reducer/userReducer";
+import AppBar from "@mui/material/AppBar";
+import { Avatar, Button, Container, Typography } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
 
 function Navbar() {
   const user = useSelector((state) => state.user);
@@ -29,15 +32,79 @@ function Navbar() {
     <div>
       {user ? (
         <>
-          <div>
-            <NavLink to={"/"}>blogs</NavLink>
-            <NavLink to={"/users"}>users</NavLink>
-            <span>{user.username} logged in</span>
-          </div>
-          <button onClick={handleLogout} className={"logout"}>
-            logout
-          </button>
-          <h1> blogapp </h1>
+          <AppBar
+            position="sticky"
+            color="secondary"
+            sx={{ marginBottom: "10px" }}
+          >
+            <Container sx={{ display: "block" }}>
+              <Container
+                sx={{ display: "flex", justifyContent: "flex-start" }}
+                variant="span"
+              >
+                <Typography sx={{ mt: "10px" }} variant="h3" component="span">
+                  Blog App
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="span"
+                  sx={{
+                    marginLeft: "40px",
+                    marginTop: "15px",
+                    color: "white",
+                    "&:hover": {
+                      background: "red",
+                    },
+                  }}
+                >
+                  <NavLink
+                    style={{ textDecoration: "none", color: "pink" }}
+                    to={"/"}
+                  >
+                    Blogs
+                  </NavLink>
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="span"
+                  sx={{
+                    marginLeft: "40px",
+                    marginTop: "15px",
+                    "&:hover": {
+                      background: "red",
+                    },
+                  }}
+                >
+                  <NavLink
+                    style={{ textDecoration: "none", color: "pink" }}
+                    to={"/users"}
+                  >
+                    Users
+                  </NavLink>
+                </Typography>
+              </Container>
+
+              <Typography
+                variant="h6"
+                component="p"
+                sx={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                <Avatar alt="user" sx={{mr:"10px"}}>
+                  <PersonIcon />
+                </Avatar>
+                <span>{user.username} logged in</span>
+                <Button
+                  color="warning"
+                  variant="contained"
+                  onClick={handleLogout}
+                  className={"logout"}
+                  sx={{ marginLeft: "15px", marginBottom: "10px" }}
+                >
+                  logout
+                </Button>
+              </Typography>
+            </Container>
+          </AppBar>
         </>
       ) : (
         <></>
