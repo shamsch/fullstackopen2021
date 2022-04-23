@@ -2,10 +2,11 @@
   "name": "body-mass-index",
   "version": "1.0.0",
   "description": "",
-  "main": "calculateBmi.ts",
+  "main": "index.ts",
   "scripts": {
     "ts-node": "ts-node",
-    "calculateBmi": "ts-node -- calculateBmi.ts"
+    "calculateBmi": "ts-node -- calculateBmi.ts",
+    "exerciseCalculator": "ts-node -- exerciseCalculator.ts"
   },
   "author": "Shamsur",
   "license": "ISC"
