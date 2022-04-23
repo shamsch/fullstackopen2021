@@ -15,6 +15,16 @@ const determineRating = (target: number, average: number) => {
 
 const ratingText = ["not so good", "kinda good", "pretty good"];
 
+interface resultObject {
+  periodLength: number;
+  trainingDays: number;
+  success: boolean;
+  rating: number;
+  ratingDescription: string;
+  target: number;
+  average: number;
+}
+
 const calculateExercise = (exerciseData: Array<number>, target: number) => {
   const days = exerciseData.length;
   const trainingDays = arrayWithoutZero(exerciseData).length;
@@ -22,7 +32,7 @@ const calculateExercise = (exerciseData: Array<number>, target: number) => {
     exerciseData.reduce((prev, current) => prev + current, 0) / days;
   const success: boolean = average >= target;
   const rating: number = determineRating(target, average);
-  return {
+  const result:resultObject = {
     periodLength: days,
     trainingDays,
     success,
@@ -31,6 +41,7 @@ const calculateExercise = (exerciseData: Array<number>, target: number) => {
     target,
     average,
   };
+  return result;
 };
 
 console.log(calculateExercise([0, 0, 0, 0, 0, 2, 1], 2));
