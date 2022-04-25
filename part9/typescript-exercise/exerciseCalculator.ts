@@ -33,7 +33,7 @@ interface resultObject {
     average: number;
 }
 
-const calculateExercise = (exerciseData: Array<number>, target: number) => {
+export const calculateExercise = (exerciseData: Array<number>, target: number) => {
     const days = exerciseData.length;
     const trainingDays = arrayWithoutZero(exerciseData).length;
     const average: number =
