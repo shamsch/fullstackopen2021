@@ -1,5 +1,7 @@
 import express from "express";
 
+//server running 
+
 const app = express()
 
 app.get('/hello', (_req, res) => {
