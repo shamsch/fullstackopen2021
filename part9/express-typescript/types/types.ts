@@ -4,14 +4,24 @@ export interface diagnoseData{
     latin: string
 }
 
-type Gender = 'male'| 'female';
+export enum genderEnum {
+    M = "male",
+    F = "female",
+    O = "other"
+}
 export interface patientData{
     id: string, 
     name: string, 
     dateOfBirth: string, 
     ssn:string, 
-    gender: Gender,
+    gender: genderEnum,
     occupation: string
 }
 
 export type  patientDataWithoutSsn = Omit<patientData, 'ssn'>;
+
+export enum genderEnum {
+    male = "male",
+    female = "female",
+    other = "other"
+}
