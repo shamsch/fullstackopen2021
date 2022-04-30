@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { setPatientView, useStateValue } from "../state";
 import { Patient } from "../types";
 
 const PatientInfo = () => {
@@ -17,7 +17,7 @@ const PatientInfo = () => {
             }
             else{
                 axios.get<Patient>(`${apiBaseUrl}/patients/${id}`).then((val) => {
-                    dispatch({type: "PATIENT_VIEW", payload: val.data});
+                    dispatch(setPatientView(val.data));
                 }).catch((error) => {
                     console.log(error);
                 });
