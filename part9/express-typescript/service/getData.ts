@@ -5,8 +5,9 @@ import {
     genderEnum,
     patientData,
     patientDataWithoutSsn,
+    Entry,
 } from "../types/types";
-import {v1 as uuid} from "uuid";
+import { v1 as uuid } from "uuid";
 
 const diagnoseDataArray: diagnoseData[] = diagnose as diagnoseData[];
 const patientDataArray: patientData[] = patient as patientData[];
@@ -22,9 +23,20 @@ export const getPatientDataWithoutSsn = (): patientDataWithoutSsn[] => {
             name,
             occupation,
             dateOfBirth,
-            gender,
+            gender
         })
     );
+};
+
+export const getPatientDatabyID = (
+    keyId: string
+): patientData | undefined => {
+    const patient = patientDataArray.find((ele) => ele.id === keyId);
+    if(patient){
+        const patientWithEntry:patientData = {...patient,entries:[]};
+        return patientWithEntry; 
+    }
+    return undefined;
 };
 
 // adding
@@ -55,6 +67,7 @@ export const validateData = (data: any) => {
     const occupation = validString(data.occupation);
     const ssn = validString(data.ssn);
     const gender = validGender(data.gender);
+    const entries: Entry[] = [];
 
     const validData: patientData = {
         id,
@@ -63,6 +76,7 @@ export const validateData = (data: any) => {
         ssn,
         gender,
         occupation,
+        entries,
     };
 
     return validData;

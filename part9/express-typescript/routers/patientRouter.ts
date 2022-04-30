@@ -1,5 +1,5 @@
 import express from "express";
-import { addPatient, getPatientDataWithoutSsn } from "../service/getData";
+import { addPatient, getPatientDatabyID, getPatientDataWithoutSsn } from "../service/getData";
 import { patientData } from "../types/types";
 import { validateData } from "../service/getData";
 
@@ -20,6 +20,11 @@ patientRouter.post("/", (_req, _res) => {
         console.log(error);
         _res.send(error);
     }
+});
+
+patientRouter.get("/:id", (_req,_res) =>{
+    const {id} = _req.params;
+    _res.send(getPatientDatabyID(id));
 });
 
 export default patientRouter;
