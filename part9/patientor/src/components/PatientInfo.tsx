@@ -1,21 +1,27 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
+import { useStateValue } from "../state";
 import { Patient } from "../types";
 
 const PatientInfo = () => {
     const { id } = useParams<{ id: string }>();
-    const [patient, setPatient] = useState<Patient | null>(null);
+    const [{patient}, dispatch] = useStateValue();
 
 
     useEffect(() => {
         if (id) {
-            axios.get<Patient>(`${apiBaseUrl}/patients/${id}`).then((val) => {
-                setPatient(val.data);
-            }).catch((error) => {
-                console.log(error);
-            });
+            if (patient && id===patient.id){
+                console.log("Already has patient");
+            }
+            else{
+                axios.get<Patient>(`${apiBaseUrl}/patients/${id}`).then((val) => {
+                    dispatch({type: "PATIENT_VIEW", payload: val.data});
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
         }
     }, [id]);
     return (
