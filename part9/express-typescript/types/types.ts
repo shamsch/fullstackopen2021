@@ -38,7 +38,7 @@ export interface HospitalEntry extends BaseEntry {
       date: string;
       criteria: string;
     };
-  }
+}
   
   export interface OccupationalHealthcareEntry extends BaseEntry {
     type: "OccupationalHealthcare";
