@@ -3,18 +3,29 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
 import { setPatientView, useStateValue } from "../state";
-import { Patient } from "../types";
+import { Patient, Diagnosis } from "../types";
 
 const PatientInfo = () => {
     const { id } = useParams<{ id: string }>();
+    const [{ diagnoses }] = useStateValue();
     const [{ patient }, dispatch] = useStateValue();
 
-    const listDiagnoseCode = (codeList: string[]|undefined):JSX.Element => {
-        if(codeList){
-            return( <ul> {codeList.map((ele,index)=> <li key={index}>{ele}</li>)} </ul>);
+    console.log(diagnoses);
+
+    const getDignoseName = (code: Diagnosis["code"]) => {
+        if(diagnoses){
+            const diagnosis = diagnoses.filter((ele) => ele.code === code);
+            return diagnosis[0].name;
+        }
+        return " ";
+    };
+
+    const listDiagnoseCode = (codeList: string[] | undefined): JSX.Element => {
+        if (codeList) {
+            return (<ul> {codeList.map((ele, index) => <li key={index}>{ele} {getDignoseName(ele)}</li>)} </ul>);
         }
         return <></>;
-        
+
     };
 
     useEffect(() => {
