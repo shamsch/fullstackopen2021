@@ -1,5 +1,5 @@
 import diagnose from "../data/diagnoses.json";
-import patient from "../data/patients.json";
+import patient from "../data/patients";
 import {
     diagnoseData,
     genderEnum,
@@ -10,7 +10,7 @@ import {
 import { v1 as uuid } from "uuid";
 
 const diagnoseDataArray: diagnoseData[] = diagnose as diagnoseData[];
-const patientDataArray: patientData[] = patient as patientData[];
+const patientDataArray: patientData[] = patient;
 
 export const getDiagnoseData = (): diagnoseData[] => {
     return diagnoseDataArray;
@@ -33,7 +33,7 @@ export const getPatientDatabyID = (
 ): patientData | undefined => {
     const patient = patientDataArray.find((ele) => ele.id === keyId);
     if(patient){
-        const patientWithEntry:patientData = {...patient,entries:[]};
+        const patientWithEntry:patientData = {...patient};
         return patientWithEntry; 
     }
     return undefined;
@@ -57,7 +57,7 @@ const validGender = (gender: any): genderEnum => {
     if (isGender(gender)) {
         return gender;
     }
-    return genderEnum["O"];
+    return genderEnum["Other"];
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateData = (data: any) => {
@@ -68,6 +68,8 @@ export const validateData = (data: any) => {
     const ssn = validString(data.ssn);
     const gender = validGender(data.gender);
     const entries: Entry[] = [];
+
+    console.log(data.entries);
 
     const validData: patientData = {
         id,
