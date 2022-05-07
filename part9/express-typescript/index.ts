@@ -4,9 +4,11 @@ import diagnoseRouter from "./routers/diagnoseRouter";
 import patientRouter from "./routers/patientRouter";
 
 const app = express();
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = 3001;
 
