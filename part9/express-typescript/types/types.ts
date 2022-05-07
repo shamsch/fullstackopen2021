@@ -3,7 +3,7 @@ export interface diagnoseData {
     name: string;
     latin: string;
 }
-interface BaseEntry {
+export interface BaseEntry {
     id: string;
     description: string;
     date: string;
