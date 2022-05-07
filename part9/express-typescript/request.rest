@@ -1,8 +1,19 @@
-## 
+##
 POST http://localhost:3001/api/patients
 
-Content-Type: application/json
-
+Content-Type:application/json
 {
-    "data": "just trolling really"
+    "data": "test data"
+}
+
+###
+POST http://localhost:3001/api/patients/d2773822-f723-11e9-8f0b-362b9e155667/entries
+
+Content-Type: application/x-www-form-urlencoded
+{
+    "date": "2019-10-20",
+    "specialist": "MD House",
+    "type": "Hospital",
+    "description": "Yearly control visit. Cholesterol levels back to normal.",
+    "discharge": "[abc,def]",
 }
