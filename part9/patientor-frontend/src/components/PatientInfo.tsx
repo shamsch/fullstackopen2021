@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
 import { setPatientView, useStateValue } from "../state";
 import { Patient, Diagnosis } from "../types";
+import { AddEntry } from "./AddEntry";
 
 const PatientInfo = () => {
     const { id } = useParams<{ id: string }>();
@@ -42,6 +43,9 @@ const PatientInfo = () => {
             }
         }
     }, [id]);
+
+   
+    
     return (
         <div>
             {patient ?
@@ -52,6 +56,7 @@ const PatientInfo = () => {
                     <p>Occupation: {patient.occupation}</p>
                     <h4>Entries</h4>
                     {patient.entries.map((entry) => <div key={entry.id}><p>{entry.date} {entry.description}</p> {listDiagnoseCode(entry.diagnosisCodes)}</div>)}
+                    <AddEntry/>
                 </div> :
                 <p>loading ...</p>}
         </div>
