@@ -12,15 +12,13 @@ export default function AddEntry() {
 
 
     const onSubmit = async (data: any) => {
-        const entry = {
-            ...data, diagnosisCode: [data.diagnosisCodes] 
-        };
 
         try{
             console.log(patient, data);
             if(patient){
-                const res = await axios.post(`${apiBaseUrl}/patients/${patient.id}/entries`, entry);
+                const res = await axios.post(`${apiBaseUrl}/patients/${patient.id}/entries`, data);
                 console.log(res);
+                window.location.reload();
             }
         }
         catch(error){
@@ -41,7 +39,7 @@ export default function AddEntry() {
                 <option value="HealthCheck">Health check</option>
             </select>
             <select {...register("healthCheckRating", { required: true })}>
-                <option value={"0"}>Healthy</option>
+                <option value={"Healthy"}>0</option>
                 <option value={"LowRisk"}>1</option>
                 <option value={"HighRisk"}>2</option>
                 <option value={"CriticalRisk"}>3</option>

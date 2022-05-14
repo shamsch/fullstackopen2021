@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
+import { fetchPatientList } from "../service";
 import { setPatientView, useStateValue } from "../state";
 import { Patient, Diagnosis } from "../types";
 import AddEntry from "./AddEntry";
@@ -29,18 +30,25 @@ const PatientInfo = () => {
     };
 
     useEffect(() => {
-        if (id) {
-            if (patient && id === patient.id) {
-                console.log("Already has patient");
+        fetchPatientList(dispatch).then(()=> {
+            if (id) {
+                if (patient && id === patient.id) {
+                    console.log("Already has patient");
+                }
+                else {
+                    
+                    axios.get<Patient>(`${apiBaseUrl}/patients/${id}`).then((val) => {
+                        dispatch(setPatientView(val.data));
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }
             }
-            else {
-                axios.get<Patient>(`${apiBaseUrl}/patients/${id}`).then((val) => {
-                    dispatch(setPatientView(val.data));
-                }).catch((error) => {
-                    console.log(error);
-                });
-            }
-        }
+        }).catch((e)=>{
+            console.log(e);
+        });
+
+       
     }, [id]);
 
    
