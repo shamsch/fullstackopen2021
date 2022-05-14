@@ -6,16 +6,40 @@ import { useForm } from 'react-hook-form';
 import { apiBaseUrl } from '../constants';
 import { useStateValue } from '../state';
 
+
 export default function AddEntry() {
     const { register, handleSubmit } = useForm();
     const [{ diagnoses, patient }] = useStateValue();
 
+    const dataValid = (data: any) => {
+        if(!data.description){
+            alert("description missing");
+            return false; 
+        }
+        else if(!Date.parse(data.date as string)){
+            alert("date missing");
+            return false;
+        }
+        else if(!data.specialist){
+            alert("specialist missing");
+            return false;
+        }
+        else if(!data.diagnosisCodes){
+            alert("diagnosisCodes missing");
+            return false;
+        }
+        else if(!data.type){
+            alert("type missing");
+            return false;
+        }
+
+        return true; 
+    };
 
     const onSubmit = async (data: any) => {
 
         try{
-            console.log(patient, data);
-            if(patient){
+            if(patient && dataValid(data)){
                 const res = await axios.post(`${apiBaseUrl}/patients/${patient.id}/entries`, data);
                 console.log(res);
                 window.location.reload();

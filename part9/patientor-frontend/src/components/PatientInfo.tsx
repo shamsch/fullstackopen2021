@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
-import { fetchPatientList } from "../service";
+import { fetchPatientList } from "../services";
 import { setPatientView, useStateValue } from "../state";
 import { Patient, Diagnosis } from "../types";
 import AddEntry from "./AddEntry";
