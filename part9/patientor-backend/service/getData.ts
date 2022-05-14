@@ -108,6 +108,7 @@ const isValidEntryType = (entry: any): entry is Entry => {
 };
 
 const parseEntry = (entry: any): Entry => {
+    console.log(entry);
     if (!entry || !isValidEntryType(entry)) {
         throw new Error("Incorrect or missing entry type: " + entry);
     }
@@ -143,7 +144,8 @@ const parseSickLeave = (
     }
 };
 
-const validDiagnosisCode = (code: any): string[] | undefined => {
+const validDiagnosisCode = (recieveCode: any): string[] | undefined => {
+    const code = [recieveCode]; 
     if (code && Array.isArray(code)) {
         const validCodeArray = code.every((item) => isString(item));
         if (validCodeArray) {
@@ -173,6 +175,7 @@ const parseHealthCheckRating = (rating: any): HealthCheckRating => {
     }
     return rating;
 };
+
 
 export const validateEntry = (data: unknown): Entry => {
     const validEntryType = parseEntry(data);

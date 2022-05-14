@@ -4,14 +4,13 @@ import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
 import { setPatientView, useStateValue } from "../state";
 import { Patient, Diagnosis } from "../types";
-import { AddEntry } from "./AddEntry";
+import AddEntry from "./AddEntry";
 
 const PatientInfo = () => {
     const { id } = useParams<{ id: string }>();
     const [{ diagnoses }] = useStateValue();
     const [{ patient }, dispatch] = useStateValue();
 
-    console.log(diagnoses);
 
     const getDignoseName = (code: Diagnosis["code"]) => {
         if(diagnoses){
