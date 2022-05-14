@@ -9,7 +9,7 @@ import { apiBaseUrl } from "./constants";
 import PatientListPage from "./PatientListPage";
 import { Typography } from "@material-ui/core";
 import PatientInfo from "./components/PatientInfo";
-import { fetchPatientList } from "./service";
+import { fetchPatientList } from "./services";
 import { useStateValue } from "./state";
 
 const App = () => {
