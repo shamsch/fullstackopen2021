@@ -8,47 +8,64 @@ import { useStateValue } from '../state';
 
 
 export default function AddEntry() {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, watch } = useForm();
     const [{ diagnoses, patient }] = useStateValue();
+    const type = watch("type", "HealthCheck");
+
+
 
     const dataValid = (data: any) => {
-        if(!data.description){
+        if (!data.description) {
             alert("description missing");
-            return false; 
-        }
-        else if(!Date.parse(data.date as string)){
-            alert("date missing");
             return false;
         }
-        else if(!data.specialist){
+        else if (!Date.parse(data.date as string)) {
+            alert("date not valid");
+            return false;
+        }
+        else if (!data.specialist) {
             alert("specialist missing");
             return false;
         }
-        else if(!data.diagnosisCodes){
+        else if (!data.diagnosisCodes) {
             alert("diagnosisCodes missing");
             return false;
         }
-        else if(!data.type){
+        else if (!data.type) {
             alert("type missing");
+            if (data.type == "Hospital" && !Date.parse(data.dischargeDate as string)) {
+                alert("discharge data not valid");
+            }
             return false;
         }
 
-        return true; 
+        return true;
     };
 
     const onSubmit = async (data: any) => {
-
-        try{
-            if(patient && dataValid(data)){
-                const res = await axios.post(`${apiBaseUrl}/patients/${patient.id}/entries`, data);
-                console.log(res);
+        try {
+            if (patient && dataValid(data)) {
+                if (data.type == "Hospital") {
+                    const entry = {
+                        ...data, discharge: {
+                            date: data.dischargeDate,
+                            criteria: data.criteria
+                        }
+                    };
+                    const res = await axios.post(`${apiBaseUrl}/patients/${patient.id}/entries`, entry);
+                    console.log(res);
+                }
+                else {
+                    const res = await axios.post(`${apiBaseUrl}/patients/${patient.id}/entries`, data);
+                    console.log(res);
+                }
                 window.location.reload();
             }
         }
-        catch(error){
+        catch (error) {
             console.log(error);
         }
-        
+
     };
 
     return (
@@ -61,14 +78,20 @@ export default function AddEntry() {
             </select>
             <select {...register("type", { required: true })}>
                 <option value="HealthCheck">Health check</option>
+                <option value="Hospital">Hospital</option>
             </select>
-            <select {...register("healthCheckRating", { required: true })}>
-                <option value={"Healthy"}>0</option>
-                <option value={"LowRisk"}>1</option>
-                <option value={"HighRisk"}>2</option>
-                <option value={"CriticalRisk"}>3</option>
-            </select>
-
+            {type == "HealthCheck" ?
+                <select {...register("healthCheckRating", { required: true })}>
+                    <option value={"Healthy"}>0</option>
+                    <option value={"LowRisk"}>1</option>
+                    <option value={"HighRisk"}>2</option>
+                    <option value={"CriticalRisk"}>3</option>
+                </select> :
+                <>
+                    <input type="text" placeholder="Discharge data" {...register("dischargeDate", { required: true })} />
+                    <input type="text" placeholder="Criteria" {...register("criteria", { required: true })} />
+                </>
+            }
             <input type="submit" />
         </form>
     );
