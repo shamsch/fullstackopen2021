@@ -1,0 +1,14 @@
+{
+  "name": "part-a",
+  "version": "1.0.0",
+  "description": "",
+  "main": "libarary-backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.7.0"
+  }
+}
