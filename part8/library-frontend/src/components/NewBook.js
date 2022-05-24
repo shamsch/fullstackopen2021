@@ -27,7 +27,6 @@ const NewBook = (props) => {
         event.preventDefault();
 
         console.log("add book...");
-        let random = ["hi"];
 
         addBook({ variables: { author, published, genres, title } });
         setTitle("");
