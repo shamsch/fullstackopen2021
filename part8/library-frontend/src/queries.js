@@ -9,3 +9,14 @@ export const GET_ALL_AUTHORS =  gql`
             id
       }}
 `
+export const GET_BOOKS_WTHOUT_GENRE = gql`
+    query GET_BOOKS_WTHOUT_GENRE{
+        allBooks {
+        title
+        published
+        author
+        id
+    }
+  }
+  
+`
