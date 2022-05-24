@@ -12,7 +12,7 @@ const Authors = (props) => {
     return <div>Loading...</div>
   }
 
-  console.log(result.data)
+  // console.log(result.data)
 
   const authors = result.data.allAuthours
 
