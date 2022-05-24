@@ -20,3 +20,17 @@ export const GET_BOOKS_WTHOUT_GENRE = gql`
   }
   
 `
+
+export const ADD_BOOK= gql`
+    mutation AddBook($author: String!, $published: Int!, $genres: [String]!, $title: String!) {
+        addBook(author: $author, published: $published, genres: $genres, title: $title) {
+            title
+            published
+            author
+            id
+            genres
+    }
+  }
+  
+  
+`

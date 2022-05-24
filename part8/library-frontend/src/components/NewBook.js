@@ -1,4 +1,6 @@
+import { useMutation } from '@apollo/client'
 import { useState } from 'react'
+import { ADD_BOOK, GET_ALL_AUTHORS, GET_BOOKS_WTHOUT_GENRE } from '../queries'
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
@@ -6,6 +8,10 @@ const NewBook = (props) => {
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+
+  //the second param to useMutation creates a ref against given query 
+  //refetches instead of retaining from cache when mutation is called 
+  const [addBook] = useMutation(ADD_BOOK, { refetchQueries: [{ query: GET_ALL_AUTHORS }, { query: GET_BOOKS_WTHOUT_GENRE }] })
 
   if (!props.show) {
     return null
@@ -15,7 +21,9 @@ const NewBook = (props) => {
     event.preventDefault()
 
     console.log('add book...')
+    let random = ['hi']
 
+    addBook({ variables: { author, published, genres, title } })
     setTitle('')
     setPublished('')
     setAuthor('')
@@ -50,7 +58,7 @@ const NewBook = (props) => {
           <input
             type="number"
             value={published}
-            onChange={({ target }) => setPublished(target.value)}
+            onChange={({ target }) => setPublished(parseInt(target.value))}
           />
         </div>
         <div>
