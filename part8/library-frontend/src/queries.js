@@ -10,6 +10,15 @@ export const GET_ALL_AUTHORS = gql`
         }
     }
 `;
+
+export const GET_ONLY_ALL_AUTHOR_NAME = gql`
+    query {
+        allAuthours {
+            name
+        }
+    }
+`;
+
 export const GET_BOOKS_WTHOUT_GENRE = gql`
     query GET_BOOKS_WTHOUT_GENRE {
         allBooks {
