@@ -3,6 +3,7 @@ Back and frontend made with:
 
  - React JS 
  - Redux Toolkit
+ - JWT Token Authentication 
  - React Router v6
  - MongoDB 
  - NodeJS
