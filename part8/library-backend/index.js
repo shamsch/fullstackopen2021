@@ -1,6 +1,16 @@
 const { ApolloServer, gql } = require("apollo-server");
 const { v1: uuid } = require("uuid");
 
+const dotenv = require("dotenv");
+const { connection } = require("./db/connection");
+
+dotenv.config()
+
+const username = process.env.USER
+const password= process.env.PASSWORD
+
+connection(username, password)
+
 let authors = [
     {
         name: "Robert Martin",
@@ -89,7 +99,7 @@ const typeDefs = gql`
     type Book {
         title: String!
         published: Int!
-        author: String!
+        author: Auhtor!
         id: ID!
         genres: [String]
     }
