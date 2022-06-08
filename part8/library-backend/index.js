@@ -1,10 +1,14 @@
 const { ApolloServer, gql, UserInputError } = require("apollo-server");
 const { v1: uuid } = require("uuid");
 
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = "NEED_HERE_A_SECRET_KEY";
+
 const dotenv = require("dotenv");
 const { connection } = require("./db/connection");
 const Book = require("./model/bookSchema");
 const Author = require("./model/authorSchema");
+const User = require("./model/userSchema");
 
 dotenv.config();
 
@@ -13,6 +17,7 @@ const password = process.env.PASSWORD;
 
 connection(username, password);
 
+//schema
 const typeDefs = gql`
     type Book {
         title: String!
@@ -34,6 +39,17 @@ const typeDefs = gql`
         authorCount: Int!
         allBooks(author: String, genre: String): [Book!]!
         allAuthors: [Author!]!
+        me: User
+    }
+
+    type User {
+        username: String!
+        favoriteGenre: String!
+        id: ID!
+    }
+
+    type Token {
+        value: String!
     }
 
     type Mutation {
@@ -44,6 +60,8 @@ const typeDefs = gql`
             genres: [String]!
         ): Book!
         editAuthor(name: String!, setBornTo: Int!): Author
+        createUser(username: String!, favoriteGenre: String!): User
+        login(username: String!, password: String!): Token
     }
 `;
 
@@ -80,6 +98,9 @@ const resolvers = {
             );
         },
         allAuthors: async () => await Author.find({}),
+        me: async (root, args, context) => {
+            return context.currentUser;
+        },
     },
     Author: {
         bookCount: async (root) => {
@@ -92,7 +113,13 @@ const resolvers = {
         },
     },
     Mutation: {
-        addBook: async (root, args) => {
+        addBook: async (root, args, context) => {
+            const currentUser = context.currentUser;
+
+            if (!currentUser) {
+                throw new AuthenticationError("not authenticated");
+            }
+
             try {
                 let authorDb = await Author.findOne({ name: args.author });
                 if (!authorDb) {
@@ -108,17 +135,49 @@ const resolvers = {
                 });
             }
         },
-        editAuthor: async (root, args) => {
+        editAuthor: async (root, args, context) => {
+            const currentUser = context.currentUser;
+
+            if (!currentUser) {
+                throw new AuthenticationError("not authenticated");
+            }
+
             const toEdit = await Author.findOne({ name: args.name });
             if (!toEdit) {
                 return null;
             }
             const updatedAuthor = { name: toEdit.name, born: args.setBornTo };
-            const updatedAuthorDb = await Author.findByIdAndUpdate(
-                toEdit._id,
-                updatedAuthor
-            );
+            await Author.findByIdAndUpdate(toEdit._id, updatedAuthor);
             return updatedAuthor;
+        },
+        createUser: async (root, args) => {
+            const user = new User({
+                username: args.username,
+                favoriteGenre: args.favoriteGenre,
+            });
+
+            return user.save().catch((error) => {
+                throw new UserInputError(error.message, {
+                    invalidArgs: args,
+                });
+            });
+        },
+        login: async (root, args) => {
+            //find user from DB
+            const user = await User.findOne({ username: args.username });
+
+            //hardcoded password
+            if (!user || args.password !== "password") {
+                throw new UserInputError("wrong credentials");
+            }
+
+            //tokenize username and id into a JWT signature
+            const userForToken = {
+                username: user.username,
+                id: user._id,
+            };
+            //give the token which we then add to header/authorization prefixing by "bearer "
+            return { value: jwt.sign(userForToken, JWT_SECRET) };
         },
     },
 };
@@ -126,6 +185,19 @@ const resolvers = {
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: async ({ req }) => {
+        //if auth is defined
+        const auth = req ? req.headers.authorization : null;
+        //extract token
+        if (auth && auth.toLowerCase().startsWith("bearer ")) {
+            //decode the token to get the username and id
+            const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET);
+            //using the id, the the user from the user db
+            const currentUser = await User.findById(decodedToken.id);
+            //share the users among all resolvers
+            return { currentUser };
+        }
+    },
 });
 
 server.listen().then(({ url }) => {
