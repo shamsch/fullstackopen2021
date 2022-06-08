@@ -3,6 +3,8 @@ const { v1: uuid } = require("uuid");
 
 const dotenv = require("dotenv");
 const { connection } = require("./db/connection");
+const Book = require("./model/bookSchema");
+const Author = require("./model/authorSchema");
 
 dotenv.config()
 
@@ -99,7 +101,7 @@ const typeDefs = gql`
     type Book {
         title: String!
         published: Int!
-        author: Auhtor!
+        author: Author!
         id: ID!
         genres: [String]
     }
@@ -159,17 +161,29 @@ const resolvers = {
             books.filter((book) => book.author === root.name).length,
     },
     Mutation: {
-        addBook: (root, args) => {
-            const newBook = { ...args, id: uuid() };
-            books = [...books, newBook];
-            if (!authors.includes(newBook.author)) {
-                const newAuthor = {
-                    name: newBook.author,
-                    id: uuid(),
-                };
-                authors = [...authors, newAuthor];
+        addBook: async (root, args) => {
+            // const newBook = { ...args, id: uuid() };
+            // books = [...books, newBook];
+            // if (!authors.includes(newBook.author)) {
+            //     const newAuthor = {
+            //         name: newBook.author,
+            //         id: uuid(),
+            //     };
+            //     authors = [...authors, newAuthor];
+            // }
+            try {
+                let authorDb = await Author.findOne({name: args.author})
+                if(!authorDb){
+                    const author = new Author({name: args.author})
+                    authorDb = await author.save()
+                }
+                const newBook = new Book({...args, author: authorDb._id})
+                const bookAdded = await newBook.save()
+                return bookAdded;
             }
-            return newBook;
+            catch(e){
+                console.log(e)
+            }
         },
         editAuthor: (root, args) => {
             const toEdit = authors.find((x) => x.name == args.name);
