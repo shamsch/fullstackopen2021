@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, gql, UserInputError } = require("apollo-server");
 const { v1: uuid } = require("uuid");
 
 const dotenv = require("dotenv");
@@ -6,13 +6,12 @@ const { connection } = require("./db/connection");
 const Book = require("./model/bookSchema");
 const Author = require("./model/authorSchema");
 
-dotenv.config()
+dotenv.config();
 
-const username = process.env.USER
-const password= process.env.PASSWORD
+const username = process.env.USER;
+const password = process.env.PASSWORD;
 
-connection(username, password)
-
+connection(username, password);
 
 const typeDefs = gql`
     type Book {
@@ -53,18 +52,25 @@ const resolvers = {
         bookCount: async () => await Book.collection.countDocuments(),
         authorCount: async () => await Author.collection.countDocuments(),
         allBooks: async (root, args) => {
-            const allBooks = await Book.find({}).populate("author", "name -_id");
+            const allBooks = await Book.find({}).populate(
+                "author",
+                "name -_id"
+            );
 
             if (args.author == undefined && args.genre == undefined) {
                 return allBooks;
             }
             //when only author is defined
             if (!args.genre) {
-                return allBooks.filter((book) => book.author.name == args.author);
+                return allBooks.filter(
+                    (book) => book.author.name == args.author
+                );
             }
             //when only genre is defined
             if (!args.author) {
-                return allBooks.filter((book) => book.genres.includes(args.genre));
+                return allBooks.filter((book) =>
+                    book.genres.includes(args.genre)
+                );
             }
 
             return allBooks.filter(
@@ -76,36 +82,42 @@ const resolvers = {
         allAuthors: async () => await Author.find({}),
     },
     Author: {
-
         bookCount: async (root) => {
-            const allBooks = await Book.find({}).populate("author", "name -_id"); 
-            return allBooks.filter((book) => book.author.name === root.name).length
-        }
-            
+            const allBooks = await Book.find({}).populate(
+                "author",
+                "name -_id"
+            );
+            return allBooks.filter((book) => book.author.name === root.name)
+                .length;
+        },
     },
     Mutation: {
         addBook: async (root, args) => {
             try {
-                let authorDb = await Author.findOne({name: args.author})
-                if(!authorDb){
-                    const author = new Author({name: args.author})
-                    authorDb = await author.save()
+                let authorDb = await Author.findOne({ name: args.author });
+                if (!authorDb) {
+                    const author = new Author({ name: args.author });
+                    authorDb = await author.save();
                 }
-                const newBook = new Book({...args, author: authorDb._id})
-                const bookAdded = await newBook.save()
+                const newBook = new Book({ ...args, author: authorDb._id });
+                const bookAdded = await newBook.save();
                 return bookAdded;
-            }
-            catch(e){
-                console.log(e)
+            } catch (e) {
+                throw new UserInputError(e.message, {
+                    invalidArgs: args,
+                });
             }
         },
         editAuthor: async (root, args) => {
-            const toEdit = await Author.findOne({name: args.name})
+            const toEdit = await Author.findOne({ name: args.name });
             if (!toEdit) {
                 return null;
             }
-            const updatedAuthor = {name: toEdit.name, born: args.setBornTo };
-            const updatedAuthorDb = await Author.findByIdAndUpdate(toEdit._id, updatedAuthor);
+            const updatedAuthor = { name: toEdit.name, born: args.setBornTo };
+            const updatedAuthorDb = await Author.findByIdAndUpdate(
+                toEdit._id,
+                updatedAuthor
+            );
             return updatedAuthor;
         },
     },
