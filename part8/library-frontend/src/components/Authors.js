@@ -5,6 +5,8 @@ import SetBirthYear from "./SetBirthYear";
 const Authors = (props) => {
     const result = useQuery(GET_ALL_AUTHORS);
 
+    // console.log(result)
+    
     if (!props.show) {
         return null;
     }
@@ -13,9 +15,9 @@ const Authors = (props) => {
         return <div>Loading...</div>;
     }
 
-    // console.log(result.data)
+   
 
-    const authors = result.data.allAuthours;
+    const authors = result.data.allAuthors;
 
     return (
         <div>
