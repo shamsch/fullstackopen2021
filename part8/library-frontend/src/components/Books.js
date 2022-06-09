@@ -4,8 +4,6 @@ import { GET_BOOKS_WTHOUT_GENRE } from "../queries";
 const Books = (props) => {
     const result = useQuery(GET_BOOKS_WTHOUT_GENRE);
 
-    console.log(result)
-
     if (!props.show) {
         return null;
     }
