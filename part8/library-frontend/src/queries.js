@@ -88,3 +88,11 @@ export const ALL_BOOK_WITH_GENRE = gql`
         }
     }
 `;
+
+export const FAVORITE_GENRE = gql`
+    query FAVORITE{
+        me {
+            favoriteGenre
+        }
+    }
+`;
