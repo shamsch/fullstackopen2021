@@ -10,8 +10,8 @@ const NewBook = (props) => {
     const [genres, setGenres] = useState([]);
 
     //the second param to useMutation creates a ref against given query
-    //refetches instead of retaining from cache when mutation is called
-    //thus causing update as new book is added and change reflected real timme
+    //refetch instead of retaining from cache when mutation is called
+    //thus causing update as new book is added and change reflected real time
     const [addBook] = useMutation(ADD_BOOK, {
         refetchQueries: [
             { query: GET_ALL_AUTHORS },
