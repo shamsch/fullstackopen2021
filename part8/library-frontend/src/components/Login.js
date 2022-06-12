@@ -6,14 +6,14 @@ export const Login = ({ show, setToken }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
-	const [login, result] = useMutation(LOGIN);
+	const [login] = useMutation(LOGIN);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(username, password);
-		login({ variables: { username, password } });
-		console.log(await result.data.login.value);
-		setToken(result.data.login.value);
+		//console.log(username, password);
+		const res = await login({ variables: { username, password } });
+		setToken(res.data.login.value);
+		localStorage.setItem("token", `${res.data.login.value}`)
 	};
 
 	if (show) {
@@ -33,5 +33,5 @@ export const Login = ({ show, setToken }) => {
 			</form>
 		);
 	}
-	return <null></null>;
+	return <></>;
 };

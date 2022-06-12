@@ -16,7 +16,7 @@ const Authors = (props) => {
     }
 
    
-
+    console.log(result)
     const authors = result.data.allAuthors;
 
     return (

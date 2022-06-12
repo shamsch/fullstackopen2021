@@ -106,7 +106,7 @@ const resolvers = {
         bookCount: async (root) => {
             const allBooks = await Book.find({}).populate(
                 "author",
-                "name -_id"
+                "name -_id" //populates author with only name and excludes everything prefixed with - here in this case _id 
             );
             return allBooks.filter((book) => book.author.name === root.name)
                 .length;
