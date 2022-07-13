@@ -1,4 +1,4 @@
-# fullstackopen2021/22
+# fullstackopen2022
 
 My coursework submission for the [Full Stack Open](https://fullstackopen.com/en/about) course worth 7 ECTS offered by the University of Helsinki 2022/23. 
 
