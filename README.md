@@ -4,8 +4,14 @@ My coursework submission for the [Full Stack Open](https://fullstackopen.com/en/
 
 [The certificate](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/cc628afff299cf9a67bc3943fb5b3b53) 
 
+Extensions of this course completed: 
+
+[React Native](https://github.com/shamsch/fullstackopen2021/blob/main/certificate-reactnative.png) - 2 ECTS <br/>
+[GraphQL](https://github.com/shamsch/fullstackopen2021/blob/main/certificate-graphql.png) - 1 ECTS <br/>
+[TypeScript](https://github.com/shamsch/fullstackopen2021/blob/main/certificate-typescript.png) - 1 ECTS <br/>
+
 ***
 
 **Shamsur**
 
-*22 Feb 2022*
+*13 July 2022*
