@@ -8,12 +8,13 @@ Core course [certificate](https://studies.cs.helsinki.fi/stats/api/certificate/f
 
 ### Extensions of this course completed: 
 
-[React Native](https://github.com/shamsch/fullstackopen2021/blob/main/certificate-reactnative.png) - 2 ECTS <br/>
-[GraphQL](https://github.com/shamsch/fullstackopen2021/blob/main/certificate-graphql.png) - 1 ECTS <br/>
-[TypeScript](https://github.com/shamsch/fullstackopen2021/blob/main/certificate-typescript.png) - 1 ECTS <br/>
+[React Native](https://studies.cs.helsinki.fi/stats/api/certificate/fs-react-native-2020/en/83d4358bc27c9fd00d318757872aa005) - 2 ECTS <br/>
+[GraphQL](https://studies.cs.helsinki.fi/stats/api/certificate/fs-graphql/en/fb0e98c3c95ca016b714b08a74a9de49) - 1 ECTS <br/>
+[TypeScript](https://studies.cs.helsinki.fi/stats/api/certificate/fs-typescript/en/91b9f16562df8ee7f4b9d32b6ef8f4be) - 1 ECTS <br/>
+[Relational Database](https://studies.cs.helsinki.fi/stats/api/certificate/fs-psql/en/709e976ef7fa455efbc967892d553f31) - 1 ECTS <br/>
 
 ***
 
 **Shamsur**
 
-*13 July 2022*
+*15 August 2022*
