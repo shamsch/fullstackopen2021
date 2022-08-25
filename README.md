@@ -12,6 +12,7 @@ Core course [certificate](https://studies.cs.helsinki.fi/stats/api/certificate/f
 [GraphQL](https://studies.cs.helsinki.fi/stats/api/certificate/fs-graphql/en/fb0e98c3c95ca016b714b08a74a9de49) - 1 ECTS <br/>
 [TypeScript](https://studies.cs.helsinki.fi/stats/api/certificate/fs-typescript/en/91b9f16562df8ee7f4b9d32b6ef8f4be) - 1 ECTS <br/>
 [Relational Database](https://studies.cs.helsinki.fi/stats/api/certificate/fs-psql/en/709e976ef7fa455efbc967892d553f31) - 1 ECTS <br/>
+[Containers](https://studies.cs.helsinki.fi/stats/api/certificate/fs-containers/en/d4c1495a690d37dea607e0c4a9302e62) - 1 ECTS <br/>
 
 ***
 
